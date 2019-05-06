@@ -7,11 +7,11 @@ namespace WspolnotaMieszkaniowa.Models
 {
     public class Comment
     {
-        private int ID { get; set; }
-        private string Content { get; set; }
-        private DateTime Date { get; set; }
+        public int ID { get; set; }
+        public string Content { get; set; }
+        public DateTime Date { get; set; }
 
-        private User Author { get; set; }
-        private List<User> Likes { get; set; }
+        public User Author { get; set; }
+        public List<User> Likes { get; set; }
     }
 }

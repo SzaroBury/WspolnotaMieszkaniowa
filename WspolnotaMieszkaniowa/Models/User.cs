@@ -4,14 +4,14 @@ namespace WspolnotaMieszkaniowa.Models
 {
     public class User
     {
-        private int UserID { get; set; }
-        private string FirstName { get; set; }
-        private string LastName { get; set; }
-        private string Address { get; set; }
-        private string Email { get; set; }
-        private DateTime BirthDate { get; set; }
-        private char Gender { get; set; }
+        public int UserID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Address { get; set; }
+        public string Email { get; set; }
+        public DateTime BirthDate { get; set; }
+        public char Gender { get; set; }
 
-        private Community Community { get; set; }
+        public Community Community { get; set; }
     }
 }
