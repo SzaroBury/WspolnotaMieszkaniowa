@@ -194,12 +194,29 @@
     <Compile Include="Controllers\CommunitiesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201905062232462_Initial.cs" />
     <Compile Include="Migrations\201905062232462_Initial.Designer.cs">
       <DependentUpon>201905062232462_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905071232519_mig1.cs" />
+    <Compile Include="Migrations\201905071232519_mig1.Designer.cs">
+      <DependentUpon>201905071232519_mig1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905071254174_mig11.cs" />
+    <Compile Include="Migrations\201905071254174_mig11.Designer.cs">
+      <DependentUpon>201905071254174_mig11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905200756129_123.cs" />
+    <Compile Include="Migrations\201905200756129_123.Designer.cs">
+      <DependentUpon>201905200756129_123.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905200759128_123312.cs" />
+    <Compile Include="Migrations\201905200759128_123312.Designer.cs">
+      <DependentUpon>201905200759128_123312.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -279,6 +296,11 @@
     <Content Include="Views\Announcements\Details.cshtml" />
     <Content Include="Views\Announcements\Edit.cshtml" />
     <Content Include="Views\Announcements\Index.cshtml" />
+    <Content Include="Views\Roles\Create.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Roles\ManageUserRoles.cshtml" />
+    <Content Include="Views\Communities\Join.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -299,6 +321,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201905062232462_Initial.resx">
       <DependentUpon>201905062232462_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905071232519_mig1.resx">
+      <DependentUpon>201905071232519_mig1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905071254174_mig11.resx">
+      <DependentUpon>201905071254174_mig11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905200756129_123.resx">
+      <DependentUpon>201905200756129_123.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905200759128_123312.resx">
+      <DependentUpon>201905200759128_123312.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

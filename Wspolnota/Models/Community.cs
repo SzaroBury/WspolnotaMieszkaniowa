@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -14,11 +15,9 @@ namespace Wspolnota.Models
         [Required]
         public string Name { get; set; }
 
-        [Required]
-        [DataType(DataType.Upload)]
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
 
-        public List<Announcement> Announcements { get; set; }
-        public List<ApplicationUser> Users { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
+        public DbSet<ApplicationUser> Users { get; set; }
     }
 }

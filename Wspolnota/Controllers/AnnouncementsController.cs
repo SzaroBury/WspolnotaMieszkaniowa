@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Wspolnota.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Wspolnota.Controllers
 {
@@ -18,7 +19,8 @@ namespace Wspolnota.Controllers
         // GET: Announcements
         public async Task<ActionResult> Index()
         {
-            return View(await db.Announcements.ToListAsync());
+            ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
+            return View(await user.Community.Announcements.ToListAsync());
         }
 
         // GET: Announcements/Details/5
