@@ -1,13 +1,11 @@
 namespace Wspolnota.Migrations
 {
-    using System;
-    using System.Data.Entity;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System.Data.Entity.Migrations;
-    using System.Drawing;
-    using System.Linq;
     using Wspolnota.Models;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
@@ -20,25 +18,12 @@ namespace Wspolnota.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
-            //var temp = Image.FromFile(@"C:\Users\Matej\Desktop\Repo\WspolnotaMieszkaniowa\Wspolnota\App_Data\blok_w_£odzi.jpg");
-            //ImageConverter imageConverter = new ImageConverter();
-
-            //context.Communities.AddOrUpdate(new Community
-            //{
-            //    CommunityID = 1,
-            //    Name = "ul. Wymyœlona 217",
-            //    Image = (byte[])imageConverter.ConvertTo(temp, typeof(byte[]))
-            //});
-
-            //Announcement announcement = new Announcement
-            //{
-            //    ID = 1,
-            //    Title = "Tytu³ og³oszenia",
-            //    Content = "blablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablabla",
-            //    Date = DateTime.Now
-            //};
-
-            //context.Communities.First().Announcements.Add(announcement);
+            context.Roles.AddOrUpdate(new IdentityRole() { Name = "Admin" });
+            context.Roles.AddOrUpdate(new IdentityRole() { Name = "Registered" });
+            var user = new ApplicationUser { UserName = "1@e.com", Email = "1@e.com", FirstName = "Ad", LastName = "min", City = "Admins Valley", Gender = 'M' };
+            //var result = await UserManager<ApplicationUser>.CreateAsync(user, "123");
+            //context.Users.AddOrUpdate(new Application)
+            context.SaveChanges();
         }
     }
 }

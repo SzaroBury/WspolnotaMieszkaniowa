@@ -68,7 +68,7 @@ namespace Wspolnota.Controllers
             {
                 case SignInStatus.Success:
                     if (returnUrl == null)
-                        return RedirectToAction("Index", "Communities");
+                        return RedirectToAction("Index", "Announcement");
                     else
                         return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
@@ -142,7 +142,7 @@ namespace Wspolnota.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, City = model.City, Address = model.Address, Gender = model.Gender };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -154,7 +154,7 @@ namespace Wspolnota.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Communities");
                 }
                 AddErrors(result);
             }

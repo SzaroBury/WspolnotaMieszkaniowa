@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Wspolnota.Models
 {
-    public class Survey
+    public class Survey : Post
     {
-        private int SurveyID { get; set; }
-        private ApplicationUser Author { get; set; }
-        private string Question { get; set; }
-        private Dictionary<ApplicationUser, string> Answers { get; set; }
-        private DateTime SurveyDate { get; set; }
-        private List<Comment> Comments { get; set; }
-        private List<ApplicationUser> Likes { get; set; }
+        [Key]
+        public int SurveyId { get; set; }
 
-        private bool Anonymous { get; set; }
-        private bool AddingOwnAnswer { get; set; }
+        public List<string> Answers { get; set; }
+        public List<SurveyAnswer> SurveyAnswers { get; set; }
+
+        //public bool Anonymous { get; set; }
+        //public  bool AddingOwnAnswer { get; set; }
     }
 }

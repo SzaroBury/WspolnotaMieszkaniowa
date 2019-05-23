@@ -7,13 +7,13 @@ namespace Wspolnota.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class _123 : IMigrationMetadata
+    public sealed partial class mig4 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(_123));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(mig4));
         
         string IMigrationMetadata.Id
         {
-            get { return "201905200756129_123"; }
+            get { return "201905231812261_mig4"; }
         }
         
         string IMigrationMetadata.Source

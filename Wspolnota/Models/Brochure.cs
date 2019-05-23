@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Wspolnota.Models
 {
-    public class Brochure
+    public class Brochure : Post
     {
-        private int BrochureID { get; set; }
-        private string Author { get; set; }
-        private string Location { get; set; }
-        private byte[] Image { get; set; }
+        [Key]
+        public int BrochureId { get; set; }
+        public string Link { get; set; }
+        public string Image { get; set; }
 
     }
 }

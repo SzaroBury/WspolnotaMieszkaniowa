@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Wspolnota.Models
@@ -64,27 +65,43 @@ namespace Wspolnota.Models
 
     public class RegisterViewModel
     {
-        [Display(Name = "First name")]
-        public string FirstName { get; set; }
-
-        [Display(Name = "Last name")]
-        public string LastName { get; set; }
-
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Email*")]
         public string Email { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Password*")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
+        [Display(Name = "Confirm password*")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+        [Display(Name = "City")]
+        public string City { get; set; }
+
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+
+        [Display(Name = "Postal code")]
+        [DataType(DataType.PostalCode)]
+        public string PostalCode { get; set; }
+
+        [Display(Name = "Your birthday")]
+        [DataType(DataType.Date)]
+        public DateTime? BirthDate { get; set; }
+
+        [Display(Name = "Gender")]
+        public char Gender { get; set; }
     }
 
     public class ResetPasswordViewModel

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -26,6 +27,8 @@ namespace Wspolnota.Models
         public string PostalCode { get; set; }
         public DateTime? BirthDate { get; set; }
         public char Gender { get; set; }
+
+        public int? CommunityId { get; set; }
         public Community Community { get; set; }
     }
 

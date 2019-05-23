@@ -4,20 +4,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Wspolnota.Models
 {
-    public class Comment
+    public abstract class Post
     {
         [Key]
-        public int CommentId { get; set; }
         public int PostId { get; set; }
-        public Post Post { get; set; }
+        public string Title { get; set; }
         public int AuthorId { get; set; }
         public ApplicationUser Author { get; set; }
-        public string Content { get; set; }
         [Display(Name = "Creating Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CreatedAt { get; set; }
+        public int CommunityId { get; set; }
+        public Community Community { get; set; }
 
+        public List<Comment> Comments { get; set; }
         public List<ApplicationUser> Likes { get; set; }
     }
 }

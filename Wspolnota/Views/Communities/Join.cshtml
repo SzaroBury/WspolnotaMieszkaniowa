@@ -33,6 +33,8 @@
     {
         @Html.AntiForgeryToken()
 
+        @Html.HiddenFor(model => model.CommunityID)
+
         <div class="form-actions no-color">
             <input type="submit" value="Join" class="btn btn-default" /> |
             @Html.ActionLink("Back to List", "Index")

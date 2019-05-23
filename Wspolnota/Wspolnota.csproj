@@ -198,25 +198,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905062232462_Initial.cs" />
-    <Compile Include="Migrations\201905062232462_Initial.Designer.cs">
-      <DependentUpon>201905062232462_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201905231805555_mig3.cs" />
+    <Compile Include="Migrations\201905231805555_mig3.Designer.cs">
+      <DependentUpon>201905231805555_mig3.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905071232519_mig1.cs" />
-    <Compile Include="Migrations\201905071232519_mig1.Designer.cs">
-      <DependentUpon>201905071232519_mig1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905071254174_mig11.cs" />
-    <Compile Include="Migrations\201905071254174_mig11.Designer.cs">
-      <DependentUpon>201905071254174_mig11.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905200756129_123.cs" />
-    <Compile Include="Migrations\201905200756129_123.Designer.cs">
-      <DependentUpon>201905200756129_123.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905200759128_123312.cs" />
-    <Compile Include="Migrations\201905200759128_123312.Designer.cs">
-      <DependentUpon>201905200759128_123312.cs</DependentUpon>
+    <Compile Include="Migrations\201905231812261_mig4.cs" />
+    <Compile Include="Migrations\201905231812261_mig4.Designer.cs">
+      <DependentUpon>201905231812261_mig4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -226,7 +214,9 @@
     <Compile Include="Models\Community.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Survey.cs" />
+    <Compile Include="Models\SurveyAnswer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -319,20 +309,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201905062232462_Initial.resx">
-      <DependentUpon>201905062232462_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201905231805555_mig3.resx">
+      <DependentUpon>201905231805555_mig3.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905071232519_mig1.resx">
-      <DependentUpon>201905071232519_mig1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905071254174_mig11.resx">
-      <DependentUpon>201905071254174_mig11.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905200756129_123.resx">
-      <DependentUpon>201905200756129_123.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905200759128_123312.resx">
-      <DependentUpon>201905200759128_123312.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201905231812261_mig4.resx">
+      <DependentUpon>201905231812261_mig4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

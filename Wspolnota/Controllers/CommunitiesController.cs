@@ -51,6 +51,8 @@ namespace Wspolnota.Controllers
         {
             if (ModelState.IsValid)
             {
+                community.Announcements = new List<Announcement>();
+                community.Announcements.Add(new Announcement { Title = "Pierwsze ogłoszenie", Content = "Tekst ogłoszenia", Author = db.Users.Find(User.Identity.GetUserId()), CreatedAt = DateTime.Now });     
                 db.Communities.Add(community);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -117,6 +119,7 @@ namespace Wspolnota.Controllers
         }
 
         // GET: Communities/Join/5
+        [Authorize]
         public async Task<ActionResult> Join(int? id)
         {
             if (id == null)
@@ -131,26 +134,25 @@ namespace Wspolnota.Controllers
             return View(community);
         }
 
-        // POST: Communities/Enter
+        // POST: Communities/Join
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Join")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Join([Bind(Include = "CommunityID,Name,Image")] Community community)
+        public ActionResult Join([Bind(Include = "CommunityID,Name,Image")] int communityID)
         {
             ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
-            if (ModelState.IsValid && user != null)
+            if(user.Community != null) return RedirectToAction("Index", "Communities");
+            if (ModelState.IsValid )
             {
-                user.Community = community;
-                community.Users.Add(user);
+                user.Community = db.Communities.Find(communityID);
 
-                db.Entry(community).State = EntityState.Modified;
                 db.Entry(user).State = EntityState.Modified;
 
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index", "Announcements");
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
             }
-            return View(community);
+            return View();
         }
 
         protected override void Dispose(bool disposing)

@@ -17,10 +17,13 @@ namespace Wspolnota.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Announcements
+        [Authorize] //Rola we wspólnocie
         public async Task<ActionResult> Index()
         {
             ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
-            return View(await user.Community.Announcements.ToListAsync());
+            if (user.CommunityId == null) return RedirectToAction("Index", "Communities");
+            List<Announcement> announcements = await db.Announcements.Where(a => a.CommunityId == user.CommunityId).ToListAsync();
+            return View(announcements);
         }
 
         // GET: Announcements/Details/5
@@ -30,7 +33,7 @@ namespace Wspolnota.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Announcement announcement = await db.Announcements.FindAsync(id);
+            Announcement announcement = await db.Announcements.FindAsync((int)id);
             if (announcement == null)
             {
                 return HttpNotFound();
@@ -68,7 +71,7 @@ namespace Wspolnota.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Announcement announcement = await db.Announcements.FindAsync(id);
+            Announcement announcement = await db.Announcements.FindAsync((int)id);
             if (announcement == null)
             {
                 return HttpNotFound();
@@ -99,7 +102,7 @@ namespace Wspolnota.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Announcement announcement = await db.Announcements.FindAsync(id);
+            Announcement announcement = await db.Announcements.FindAsync((int)id);
             if (announcement == null)
             {
                 return HttpNotFound();
