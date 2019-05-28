@@ -101,7 +101,7 @@ namespace Wspolnota.Models
         public DateTime? BirthDate { get; set; }
 
         [Display(Name = "Gender")]
-        public char Gender { get; set; }
+        public bool? Gender { get; set; }
     }
 
     public class ResetPasswordViewModel

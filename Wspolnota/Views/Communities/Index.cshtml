@@ -33,7 +33,8 @@
             @Html.ActionLink("Edit", "Edit", new { id = item.CommunityID }) |
             @Html.ActionLink("Details", "Details", new { id = item.CommunityID }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.CommunityID }) |
-            @Html.ActionLink("Join", "Join", new { id = item.CommunityID })
+            @Html.ActionLink("Join", "Join", new { id = item.CommunityID }) |
+            @Html.ActionLink("Enter", "Index", "Posts", new { id = item.CommunityID }, null)
         </td>
     </tr>
 }

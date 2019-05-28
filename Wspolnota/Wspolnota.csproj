@@ -190,21 +190,17 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AnnouncementsController.cs" />
     <Compile Include="Controllers\CommunitiesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905231805555_mig3.cs" />
-    <Compile Include="Migrations\201905231805555_mig3.Designer.cs">
-      <DependentUpon>201905231805555_mig3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905231812261_mig4.cs" />
-    <Compile Include="Migrations\201905231812261_mig4.Designer.cs">
-      <DependentUpon>201905231812261_mig4.cs</DependentUpon>
+    <Compile Include="Migrations\201905281927066_mig1.cs" />
+    <Compile Include="Migrations\201905281927066_mig1.Designer.cs">
+      <DependentUpon>201905281927066_mig1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -281,16 +277,20 @@
     <Content Include="Views\Communities\Details.cshtml" />
     <Content Include="Views\Communities\Edit.cshtml" />
     <Content Include="Views\Communities\Index.cshtml" />
-    <Content Include="Views\Announcements\Create.cshtml" />
-    <Content Include="Views\Announcements\Delete.cshtml" />
-    <Content Include="Views\Announcements\Details.cshtml" />
-    <Content Include="Views\Announcements\Edit.cshtml" />
-    <Content Include="Views\Announcements\Index.cshtml" />
     <Content Include="Views\Roles\Create.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Roles\Edit.cshtml" />
     <Content Include="Views\Roles\ManageUserRoles.cshtml" />
     <Content Include="Views\Communities\Join.cshtml" />
+    <Content Include="Views\Posts\Create.cshtml" />
+    <Content Include="Views\Posts\Delete.cshtml" />
+    <Content Include="Views\Posts\Details.cshtml" />
+    <Content Include="Views\Posts\Edit.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
+    <Content Include="Views\Posts\AnnouncementRenderer.cshtml" />
+    <Content Include="Views\Posts\SurveyRenderer.cshtml" />
+    <Content Include="Views\Posts\BrochureRenderer.cshtml" />
+    <Content Include="Views\Posts\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -309,11 +309,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201905231805555_mig3.resx">
-      <DependentUpon>201905231805555_mig3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905231812261_mig4.resx">
-      <DependentUpon>201905231812261_mig4.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201905281927066_mig1.resx">
+      <DependentUpon>201905281927066_mig1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

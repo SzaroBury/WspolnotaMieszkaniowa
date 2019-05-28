@@ -3,7 +3,7 @@ namespace Wspolnota.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class mig3 : DbMigration
+    public partial class mig1 : DbMigration
     {
         public override void Up()
         {
@@ -23,15 +23,12 @@ namespace Wspolnota.Migrations
                         Image = c.String(),
                         SurveyId = c.Int(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
-                        Community_CommunityID = c.Int(),
                         Author_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.PostId)
-                .ForeignKey("dbo.Communities", t => t.Community_CommunityID)
                 .ForeignKey("dbo.AspNetUsers", t => t.Author_Id)
                 .ForeignKey("dbo.Communities", t => t.CommunityId, cascadeDelete: true)
                 .Index(t => t.CommunityId)
-                .Index(t => t.Community_CommunityID)
                 .Index(t => t.Author_Id);
             
             CreateTable(
@@ -45,7 +42,7 @@ namespace Wspolnota.Migrations
                         Address = c.String(),
                         PostalCode = c.String(),
                         BirthDate = c.DateTime(),
-                        CommunityID = c.Int(nullable: false),
+                        Gender = c.Boolean(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -61,10 +58,8 @@ namespace Wspolnota.Migrations
                         Post_PostId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Communities", t => t.CommunityID, cascadeDelete: true)
                 .ForeignKey("dbo.Comments", t => t.Comment_CommentId)
                 .ForeignKey("dbo.Posts", t => t.Post_PostId)
-                .Index(t => t.CommunityID)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex")
                 .Index(t => t.Comment_CommentId)
                 .Index(t => t.Post_PostId);
@@ -91,31 +86,6 @@ namespace Wspolnota.Migrations
                         Image = c.String(),
                     })
                 .PrimaryKey(t => t.CommunityID);
-            
-            CreateTable(
-                "dbo.AspNetUserLogins",
-                c => new
-                    {
-                        LoginProvider = c.String(nullable: false, maxLength: 128),
-                        ProviderKey = c.String(nullable: false, maxLength: 128),
-                        UserId = c.String(nullable: false, maxLength: 128),
-                    })
-                .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.UserId);
-            
-            CreateTable(
-                "dbo.AspNetUserRoles",
-                c => new
-                    {
-                        UserId = c.String(nullable: false, maxLength: 128),
-                        RoleId = c.String(nullable: false, maxLength: 128),
-                    })
-                .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
-                .Index(t => t.UserId)
-                .Index(t => t.RoleId);
             
             CreateTable(
                 "dbo.Comments",
@@ -152,6 +122,31 @@ namespace Wspolnota.Migrations
                 .Index(t => t.Survey_PostId);
             
             CreateTable(
+                "dbo.AspNetUserLogins",
+                c => new
+                    {
+                        LoginProvider = c.String(nullable: false, maxLength: 128),
+                        ProviderKey = c.String(nullable: false, maxLength: 128),
+                        UserId = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.AspNetUserRoles",
+                c => new
+                    {
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        RoleId = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.RoleId })
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
+                .Index(t => t.UserId)
+                .Index(t => t.RoleId);
+            
+            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -161,45 +156,59 @@ namespace Wspolnota.Migrations
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
+            CreateTable(
+                "dbo.CommunityApplicationUsers",
+                c => new
+                    {
+                        Community_CommunityID = c.Int(nullable: false),
+                        ApplicationUser_Id = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.Community_CommunityID, t.ApplicationUser_Id })
+                .ForeignKey("dbo.Communities", t => t.Community_CommunityID, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id, cascadeDelete: true)
+                .Index(t => t.Community_CommunityID)
+                .Index(t => t.ApplicationUser_Id);
+            
         }
         
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.CommunityApplicationUsers", "ApplicationUser_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.CommunityApplicationUsers", "Community_CommunityID", "dbo.Communities");
             DropForeignKey("dbo.SurveyAnswers", "Survey_PostId", "dbo.Posts");
             DropForeignKey("dbo.SurveyAnswers", "Author_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUsers", "Post_PostId", "dbo.Posts");
             DropForeignKey("dbo.Posts", "CommunityId", "dbo.Communities");
             DropForeignKey("dbo.Comments", "PostId", "dbo.Posts");
-            DropForeignKey("dbo.Posts", "Author_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUsers", "Comment_CommentId", "dbo.Comments");
             DropForeignKey("dbo.Comments", "Author_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUsers", "CommunityID", "dbo.Communities");
-            DropForeignKey("dbo.Posts", "Community_CommunityID", "dbo.Communities");
+            DropForeignKey("dbo.Posts", "Author_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropIndex("dbo.CommunityApplicationUsers", new[] { "ApplicationUser_Id" });
+            DropIndex("dbo.CommunityApplicationUsers", new[] { "Community_CommunityID" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
+            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
+            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.SurveyAnswers", new[] { "Survey_PostId" });
             DropIndex("dbo.SurveyAnswers", new[] { "Author_Id" });
             DropIndex("dbo.Comments", new[] { "Author_Id" });
             DropIndex("dbo.Comments", new[] { "PostId" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
-            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", new[] { "Post_PostId" });
             DropIndex("dbo.AspNetUsers", new[] { "Comment_CommentId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.AspNetUsers", new[] { "CommunityID" });
             DropIndex("dbo.Posts", new[] { "Author_Id" });
-            DropIndex("dbo.Posts", new[] { "Community_CommunityID" });
             DropIndex("dbo.Posts", new[] { "CommunityId" });
+            DropTable("dbo.CommunityApplicationUsers");
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.SurveyAnswers");
-            DropTable("dbo.Comments");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
+            DropTable("dbo.SurveyAnswers");
+            DropTable("dbo.Comments");
             DropTable("dbo.Communities");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");

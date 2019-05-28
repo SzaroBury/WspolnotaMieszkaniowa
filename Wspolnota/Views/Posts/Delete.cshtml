@@ -1,4 +1,4 @@
-﻿@model Wspolnota.Models.Announcement
+﻿@model Wspolnota.Models.Post
 
 @{
     ViewBag.Title = "Delete";
@@ -8,9 +8,17 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Announcement</h4>
+    <h4>Post</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Community.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Community.Name)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Title)
         </dt>
@@ -20,27 +28,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Content)
+            @Html.DisplayNameFor(model => model.AuthorId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Content)
+            @Html.DisplayFor(model => model.AuthorId)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Date)
+            @Html.DisplayNameFor(model => model.CreatedAt)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Image)
+            @Html.DisplayFor(model => model.CreatedAt)
         </dd>
 
     </dl>

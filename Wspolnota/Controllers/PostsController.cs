@@ -12,111 +12,112 @@ using Microsoft.AspNet.Identity;
 
 namespace Wspolnota.Controllers
 {
-    public class AnnouncementsController : Controller
+    public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Announcements
-        [Authorize] //Rola we wspólnocie
+        // GET: Posts
+        [Authorize]
         public async Task<ActionResult> Index()
         {
-            ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
-            if (user.CommunityId == null) return RedirectToAction("Index", "Communities");
-            List<Announcement> announcements = await db.Announcements.Where(a => a.CommunityId == user.CommunityId).ToListAsync();
-            return View(announcements);
+            return View(await db.Posts.ToListAsync());
         }
 
-        // GET: Announcements/Details/5
+        // GET: Posts/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Announcement announcement = await db.Announcements.FindAsync((int)id);
-            if (announcement == null)
+            Post post = await db.Posts.FindAsync(id);
+            if (post == null)
             {
                 return HttpNotFound();
             }
-            return View(announcement);
+            return View(post);
         }
 
-        // GET: Announcements/Create
+        // GET: Posts/Create
         public ActionResult Create()
         {
+            ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name");
             return View();
         }
 
-        // POST: Announcements/Create
+        // POST: Posts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Title,Content,Date,Image")] Announcement announcement)
+        public async Task<ActionResult> Create([Bind(Include = "PostId,Title,AuthorId,CreatedAt,CommunityId")] Post post)
         {
             if (ModelState.IsValid)
             {
-                db.Announcements.Add(announcement);
+                db.Posts.Add(post);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(announcement);
+            ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
+            return View(post);
         }
 
-        // GET: Announcements/Edit/5
+        // GET: Posts/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Announcement announcement = await db.Announcements.FindAsync((int)id);
-            if (announcement == null)
+            Post post = await db.Posts.FindAsync(id);
+            if (post == null)
             {
                 return HttpNotFound();
             }
-            return View(announcement);
+            ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
+            return View(post);
         }
 
-        // POST: Announcements/Edit/5
+        // POST: Posts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Title,Content,Date,Image")] Announcement announcement)
+        public async Task<ActionResult> Edit([Bind(Include = "PostId,Title,AuthorId,CreatedAt,CommunityId")] Post post)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(announcement).State = EntityState.Modified;
+                db.Entry(post).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(announcement);
+            ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
+            return View(post);
         }
 
-        // GET: Announcements/Delete/5
+        // GET: Posts/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Announcement announcement = await db.Announcements.FindAsync((int)id);
-            if (announcement == null)
+            Post post = await db.Posts.FindAsync(id);
+            if (post == null)
             {
                 return HttpNotFound();
             }
-            return View(announcement);
+            return View(post);
         }
 
-        // POST: Announcements/Delete/5
+        // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Announcement announcement = await db.Announcements.FindAsync(id);
-            db.Announcements.Remove(announcement);
+            Post post = await db.Posts.FindAsync(id);
+            db.Posts.Remove(post);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

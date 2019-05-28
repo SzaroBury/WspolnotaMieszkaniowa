@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
@@ -20,16 +21,20 @@ namespace Wspolnota.Models
             return userIdentity;
         }
 
+        public ApplicationUser() : base()
+        {
+            Communities = new List<Community>();
+        }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
         public string PostalCode { get; set; }
         public DateTime? BirthDate { get; set; }
-        public char Gender { get; set; }
+        public bool? Gender { get; set; } //true if female, false for male
 
-        public int? CommunityId { get; set; }
-        public Community Community { get; set; }
+        public List<Community> Communities { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -46,5 +51,6 @@ namespace Wspolnota.Models
 
         public DbSet<Community> Communities { get; set; }
         public DbSet<Announcement> Announcements { get; set; }
+        public DbSet<Post> Posts { get; set; }
     }
 }
