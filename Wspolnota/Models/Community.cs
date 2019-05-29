@@ -14,5 +14,11 @@ namespace Wspolnota.Models
 
         public List<Post> Posts { get; set; }
         public List<ApplicationUser> Users { get; set; }
+
+        public Community()
+        {
+            Posts = new List<Post>();
+            Users = new List<ApplicationUser>();
+        }
     }
 }
