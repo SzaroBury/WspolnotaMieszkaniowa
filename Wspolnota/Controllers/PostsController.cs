@@ -16,20 +16,21 @@ namespace Wspolnota.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private List<Post> posts = new List<Post>();
+        private ApplicationUser user = new ApplicationUser();
 
         // GET: Posts
         [Authorize]
         public async Task<ActionResult> Index()
         {
-            var a = await db.Announcements.ToListAsync();
-            var b = await db.Brochures.ToListAsync();
-            var s = await db.Surveys.Include("Answers").ToListAsync();
+            string userId = User.Identity.GetUserId();
+            var a = await db.Announcements.Where(a2 => db.Users.Where(u => u.Id == userId).FirstOrDefault().Communities.Select(c => c.CommunityID).Contains(a2.CommunityId)).ToListAsync();
+            var b = await db.Brochures.Where(a2 => db.Users.Where(u => u.Id == userId).FirstOrDefault().Communities.Select(c => c.CommunityID).Contains(a2.CommunityId)).ToListAsync();
+            var s = await db.Surveys.Include("Answers").Where(a2 => db.Users.Where(u => u.Id == userId).FirstOrDefault().Communities.Select(c => c.CommunityID).Contains(a2.CommunityId)).ToListAsync();
 
             posts.AddRange(a);
             posts.AddRange(b);
             posts.AddRange(s);
             
-
             return View(posts);
         }
 

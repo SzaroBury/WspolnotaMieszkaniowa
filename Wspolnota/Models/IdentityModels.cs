@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -48,14 +46,6 @@ namespace Wspolnota.Models
         {
             return new ApplicationDbContext();
         }
-
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    //modelBuilder.Entity<Post>().ToTable("Posts");
-        //    //modelBuilder.Entity<Announcement>().ToTable("Announcements");
-        //    //modelBuilder.Entity<Survey>().ToTable("Surveys");
-        //    //modelBuilder.Entity<Brochure>().ToTable("Brochures");
-        //}
 
         public DbSet<Community> Communities { get; set; }
         public DbSet<Announcement> Announcements { get; set; }
