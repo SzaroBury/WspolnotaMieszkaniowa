@@ -1,3 +1,8 @@
-﻿<div>
-    <h2>Announcement</h2>
+﻿@model Wspolnota.Models.Brochure
+
+<div style="border: 1px solid lightgrey; padding:1%; margin:2%;">
+    <h3>@Model.Title</h3>
+    <a href=@Model.Link>
+        <img src=@Model.Image alt=@Model.Image />
+    </a>
 </div>

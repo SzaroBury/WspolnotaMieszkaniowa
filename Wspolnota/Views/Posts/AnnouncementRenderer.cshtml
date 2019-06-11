@@ -1,6 +1,6 @@
-﻿@model IEnumerable<Wspolnota.Models.Announcement>
+﻿@model Wspolnota.Models.Announcement
 
-<div>
-    <h2>Announcement</h2>
-    <p>Model</p>
+<div style="border: 1px solid lightgrey; padding:1%; margin:2%;">
+    <h3>@Html.DisplayFor(model => model.Title)</h3>
+    <p>@Html.DisplayFor(model => model.Content)</p>
 </div>

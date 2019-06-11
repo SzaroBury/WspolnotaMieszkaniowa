@@ -52,8 +52,8 @@ namespace Wspolnota.Controllers
                 community.Posts = new List<Post>
                 {
                     new Announcement    { Title = "Pierwsze ogłoszenie", Author = db.Users.Find(User.Identity.GetUserId()), CreatedAt = DateTime.Now, Content = "Tekst ogłoszenia" },
-                    new Survey          { Title = "Pierwsza ankieta - Co było pierwsze, jajko czy kura?", Author = db.Users.Find(User.Identity.GetUserId()), CreatedAt = DateTime.Now, Answers = new List<string>{ "Jajko", "Kura" }  },
-                    new Brochure        { Title = "Pierwsza reklama", Author = db.Users.Find(User.Identity.GetUserId()), CreatedAt = DateTime.Now, Image = "@https://pbs.twimg.com/media/DtxH42HXQAAb5Ks.jpg", Link = "@www.google.com" }
+                    new Survey          { Title = "Pierwsza ankieta - Co było pierwsze, jajko czy kura?", Author = db.Users.Find(User.Identity.GetUserId()), CreatedAt = DateTime.Now, Answers = new List<Answer>{ new Answer { Content = "Jajko"} , new Answer { Content = "Kura" } }  },
+                    new Brochure        { Title = "Pierwsza reklama", Author = db.Users.Find(User.Identity.GetUserId()), CreatedAt = DateTime.Now, Image = @"https://pbs.twimg.com/media/DtxH42HXQAAb5Ks.jpg", Link = @"https://www.google.com" }
                 };
                 db.Communities.Add(community);
                 await db.SaveChangesAsync();
@@ -141,7 +141,7 @@ namespace Wspolnota.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Join")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Join([Bind(Include = "CommunityID,Name,Image")] int communityID)
+        public ActionResult Join([Bind(Include = "CommunityID,Name,Image")] int communityID)
         {
             if (ModelState.IsValid)
             {

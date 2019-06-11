@@ -6,31 +6,23 @@
 
 <h2>Posts</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
 <div>
+    <p style="text-align:center"><a href="Posts/Create" class="btn btn-primary btn-lg">Create new</a></p>
+
     @foreach (var item in Model)
     {
         @Html.Value(item.GetType().ToString());
         if (item.GetType().Name.ToString() == "Announcement")
         {
-            <h1>OGŁOSZENIE</h1>
-            //@Html.Partial("AnnouncementRenderer", item.GetType());
+            @Html.Partial("AnnouncementRenderer", item);
         }
         else if (item.GetType().Name.ToString() == "Survey")
         {
-            <h1>ANKIETA</h1>
-            //rendering a survey
+            @Html.Partial("SurveyRenderer", item);
         }
-
         else if (item.GetType().Name.ToString() == "Brochure")
         {
-            <h1>REKLAMA</h1>
-            //rendering a brochure
-            //<h2>@Html.DisplayFor(modelItem => item.Title)</h2>
-            //<a href=@Html.ValueFor(modelItem => item.)><img src=@Html.ValueFor(modelItem => item.Image) alt="Ad"/></a>
+            @Html.Partial("BrochureRenderer", item)
         }
     }
 </div>

@@ -1,3 +1,15 @@
-﻿<div>
-    <h2>Announcement</h2>
+﻿@model Wspolnota.Models.Survey
+
+<div style="border: 1px solid lightgrey; padding:1%; margin:2%;">
+    <h3>@Html.DisplayFor(s => s.Title)</h3>
+    <p>
+        @Html.Label("AuthorId: ")    @Html.ValueFor(s => s.AuthorId) <br />
+        @Html.Label("CommunityId: ")    @Html.ValueFor(s => s.CommunityId) <br />
+        @Html.Label("Answers: ")    @Html.ValueFor(s => s.Answers) <br />
+        @for (var i = 0; i < Model.Answers.Count(); i++)
+        {
+            @Html.RadioButtonFor(s => s.Answers, Model.Answers[i].Content)
+            <br/>
+        }
+    </p>
 </div>

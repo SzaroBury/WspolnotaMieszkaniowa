@@ -2,13 +2,12 @@
 
 namespace Wspolnota.Models
 {
-    public class SurveyAnswer
+    public class Vote
     {
         [Key]
+        public int VoteId { get; set; }
         public int AnswerId { get; set; }
-        public int SurveyId { get; set; }
-        public int Answer { get; set; }
-        public Survey Survey { get; set; }
+        public Answer Answer { get; set; }
         public int AuthorId { get; set; }
         public ApplicationUser Author { get; set; }
     }
