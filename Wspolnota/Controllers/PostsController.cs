@@ -23,11 +23,12 @@ namespace Wspolnota.Controllers
         {
             var a = await db.Announcements.ToListAsync();
             var b = await db.Brochures.ToListAsync();
-            var s = await db.Surveys.ToListAsync();
+            var s = await db.Surveys.Include("Answers").ToListAsync();
 
             posts.AddRange(a);
             posts.AddRange(b);
             posts.AddRange(s);
+            
 
             return View(posts);
         }

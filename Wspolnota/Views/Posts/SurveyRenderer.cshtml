@@ -3,12 +3,9 @@
 <div style="border: 1px solid lightgrey; padding:1%; margin:2%;">
     <h3>@Html.DisplayFor(s => s.Title)</h3>
     <p>
-        @Html.Label("AuthorId: ")    @Html.ValueFor(s => s.AuthorId) <br />
-        @Html.Label("CommunityId: ")    @Html.ValueFor(s => s.CommunityId) <br />
-        @Html.Label("Answers: ")    @Html.ValueFor(s => s.Answers) <br />
-        @for (var i = 0; i < Model.Answers.Count(); i++)
+        @foreach(var answer in Model.Answers)
         {
-            @Html.RadioButtonFor(s => s.Answers, Model.Answers[i].Content)
+            @Html.RadioButtonFor(model => model.Answers, answer.Content) @Html.LabelFor(model => model.Answers, answer.Content) 
             <br/>
         }
     </p>
