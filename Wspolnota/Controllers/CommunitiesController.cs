@@ -114,8 +114,16 @@ namespace Wspolnota.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Community community = await db.Communities.FindAsync(id);
-            db.Communities.Remove(community);
+            List<Survey> surveys = await db.Surveys.Where(a => a.CommunityId == id).ToListAsync();
+
+            db.Votes.RemoveRange(await db.Votes.Include("Answer.Survey").Where(v => v.Answer.Survey.CommunityId == id).ToListAsync());
+            db.Answers.RemoveRange(await db.Answers.Include("Survey").Where(ans => ans.Survey.CommunityId == id).ToListAsync());
+            db.Surveys.RemoveRange(await db.Surveys.Where(s => s.CommunityId == id).ToListAsync());
+            db.Announcements.RemoveRange(await db.Announcements.Where(a => a.CommunityId == id).ToListAsync());
+            db.Brochures.RemoveRange(await db.Brochures.Where(a => a.CommunityId == id).ToListAsync());
+            db.Communities.Remove(await db.Communities.FindAsync(id));
+            
+
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

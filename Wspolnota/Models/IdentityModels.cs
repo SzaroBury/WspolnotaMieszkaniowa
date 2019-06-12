@@ -51,5 +51,8 @@ namespace Wspolnota.Models
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Brochure> Brochures { get; set; }
         public DbSet<Survey> Surveys { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Vote> Votes { get; set; }
+        public DbSet<Comment> Comments { get; set; }
     }
 }

@@ -26,15 +26,16 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            <!--@Html.DisplayFor(modelItem => item.Image)-->
-            <img style="height:100px; width: auto;" src="https://uml.lodz.pl/files/public/_processed_/a/8/csm_Wysoka_blok06_f45fe583cc.jpg" alt="alternatywny_tekst"/>
+            <a href="Posts">
+                <img style="height:100px; width: auto;" src=@item.Image alt=@item.Name />
+            </a>
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.CommunityID }) |
             @Html.ActionLink("Details", "Details", new { id = item.CommunityID }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.CommunityID }) |
             @Html.ActionLink("Join", "Join", new { id = item.CommunityID }) |
-            @Html.ActionLink("Enter", "Index", "Posts", new { id = item.CommunityID }, null)
+            @Html.ActionLink("Enter", "Index", "Posts", new { communityId = item.CommunityID }, null)
         </td>
     </tr>
 }

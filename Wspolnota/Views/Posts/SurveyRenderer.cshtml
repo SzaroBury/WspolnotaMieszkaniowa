@@ -3,10 +3,31 @@
 <div style="border: 1px solid lightgrey; padding:1%; margin:2%;">
     <h3>@Html.DisplayFor(s => s.Title)</h3>
     <p>
-        @foreach(var answer in Model.Answers)
+
+        @using (Html.BeginForm("CreateVote", "Posts", FormMethod.Post))
         {
-            @Html.RadioButtonFor(model => model.Answers, answer.Content) @Html.LabelFor(model => model.Answers, answer.Content) 
-            <br/>
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @foreach (var answer in Model.Answers)
+                {
+                <div class="form-group">
+                    @Html.RadioButtonFor(model => model.Answers, answer, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.LabelFor(model => model.Answers, answer.Content)
+
+                    @Html.Hidden("AnswerId", answer.AnswerId)
+                    @Html.Hidden("Content", answer.Content)
+                    @Html.Hidden("SurveyId", Model.SurveyId)
+                    <br />
+                </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
         }
     </p>
 </div>

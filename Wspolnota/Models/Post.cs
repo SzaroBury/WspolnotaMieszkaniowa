@@ -9,7 +9,7 @@ namespace Wspolnota.Models
         [Key]
         public int PostId { get; set; }
         public string Title { get; set; }
-        public int AuthorId { get; set; }
+        public string AuthorId { get; set; }
         public ApplicationUser Author { get; set; }
         [Display(Name = "Creating Date")]
         [DataType(DataType.Date)]

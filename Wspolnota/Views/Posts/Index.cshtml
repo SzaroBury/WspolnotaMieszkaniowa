@@ -4,7 +4,7 @@
     ViewBag.Title = "Community posts";
 }
 
-<h2>Posts</h2>
+<h2>@Model.First().Community.Name</h2>
 
 <div>
     <p style="text-align:center"><a href="Posts/Create" class="btn btn-primary btn-lg">Create new</a></p>
