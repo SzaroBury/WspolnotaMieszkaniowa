@@ -13,23 +13,19 @@ namespace Wspolnota.Migrations
                     {
                         PostId = c.Int(nullable: false, identity: true),
                         Title = c.String(),
-                        AuthorId = c.Int(nullable: false),
+                        AuthorId = c.String(maxLength: 128),
                         CreatedAt = c.DateTime(nullable: false),
                         CommunityId = c.Int(nullable: false),
-                        AnnouncementId = c.Int(),
                         Content = c.String(),
-                        BrochureId = c.Int(),
                         Link = c.String(),
                         Image = c.String(),
-                        SurveyId = c.Int(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
-                        Author_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.PostId)
-                .ForeignKey("dbo.AspNetUsers", t => t.Author_Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.AuthorId)
                 .ForeignKey("dbo.Communities", t => t.CommunityId, cascadeDelete: true)
-                .Index(t => t.CommunityId)
-                .Index(t => t.Author_Id);
+                .Index(t => t.AuthorId)
+                .Index(t => t.CommunityId);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -41,8 +37,8 @@ namespace Wspolnota.Migrations
                         City = c.String(),
                         Address = c.String(),
                         PostalCode = c.String(),
-                        BirthDate = c.DateTime(),
-                        Gender = c.Boolean(),
+                        BirthDate = c.DateTime(nullable: false),
+                        Gender = c.Boolean(nullable: false),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -123,16 +119,15 @@ namespace Wspolnota.Migrations
                     {
                         VoteId = c.Int(nullable: false, identity: true),
                         AnswerId = c.Int(nullable: false),
-                        AuthorId = c.Int(nullable: false),
-                        Author_Id = c.String(maxLength: 128),
+                        AuthorId = c.String(maxLength: 128),
                         Survey_PostId = c.Int(),
                     })
                 .PrimaryKey(t => t.VoteId)
                 .ForeignKey("dbo.Answers", t => t.AnswerId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.Author_Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.AuthorId)
                 .ForeignKey("dbo.Posts", t => t.Survey_PostId)
                 .Index(t => t.AnswerId)
-                .Index(t => t.Author_Id)
+                .Index(t => t.AuthorId)
                 .Index(t => t.Survey_PostId);
             
             CreateTable(
@@ -193,7 +188,7 @@ namespace Wspolnota.Migrations
             DropForeignKey("dbo.CommunityApplicationUsers", "ApplicationUser_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.CommunityApplicationUsers", "Community_CommunityID", "dbo.Communities");
             DropForeignKey("dbo.Votes", "Survey_PostId", "dbo.Posts");
-            DropForeignKey("dbo.Votes", "Author_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Votes", "AuthorId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Votes", "AnswerId", "dbo.Answers");
             DropForeignKey("dbo.Answers", "Survey_PostId", "dbo.Posts");
             DropForeignKey("dbo.AspNetUsers", "Post_PostId", "dbo.Posts");
@@ -201,7 +196,7 @@ namespace Wspolnota.Migrations
             DropForeignKey("dbo.Comments", "PostId", "dbo.Posts");
             DropForeignKey("dbo.AspNetUsers", "Comment_CommentId", "dbo.Comments");
             DropForeignKey("dbo.Comments", "Author_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Posts", "Author_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Posts", "AuthorId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropIndex("dbo.CommunityApplicationUsers", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.CommunityApplicationUsers", new[] { "Community_CommunityID" });
@@ -210,7 +205,7 @@ namespace Wspolnota.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.Votes", new[] { "Survey_PostId" });
-            DropIndex("dbo.Votes", new[] { "Author_Id" });
+            DropIndex("dbo.Votes", new[] { "AuthorId" });
             DropIndex("dbo.Votes", new[] { "AnswerId" });
             DropIndex("dbo.Answers", new[] { "Survey_PostId" });
             DropIndex("dbo.Comments", new[] { "Author_Id" });
@@ -219,8 +214,8 @@ namespace Wspolnota.Migrations
             DropIndex("dbo.AspNetUsers", new[] { "Post_PostId" });
             DropIndex("dbo.AspNetUsers", new[] { "Comment_CommentId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.Posts", new[] { "Author_Id" });
             DropIndex("dbo.Posts", new[] { "CommunityId" });
+            DropIndex("dbo.Posts", new[] { "AuthorId" });
             DropTable("dbo.CommunityApplicationUsers");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");

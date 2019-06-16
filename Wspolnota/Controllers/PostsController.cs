@@ -7,6 +7,7 @@ using System.Net;
 using System.Web.Mvc;
 using Wspolnota.Models;
 using Microsoft.AspNet.Identity;
+using System;
 
 namespace Wspolnota.Controllers
 {
@@ -17,20 +18,22 @@ namespace Wspolnota.Controllers
 
         // GET: Posts
         [Authorize]
-        public async Task<ActionResult> Index(int communityId)
+        public async Task<ActionResult> Index(int? id)
         {
+            if(!id.HasValue) return RedirectToAction("Index", "Communities");
             string userId = User.Identity.GetUserId();
-            if (!db.Users.Where(u => u.Id == userId).Include("Communities").FirstOrDefault().Communities.Select(c => c.CommunityID).Contains(communityId)) return RedirectToAction("Index", "Communities");
+            if (!db.Users.Where(u => u.Id == userId).Include("Communities").FirstOrDefault().Communities.Select(c => c.CommunityID).Contains(id.Value)) return RedirectToAction("Index", "Communities");
 
             //var a = await db.Announcements.Where(a2 => db.Users.Where(u => u.Id == userId).FirstOrDefault().Communities.Select(c => c.CommunityID).Contains(a2.CommunityId)).ToListAsync();
             //var b = await db.Brochures.Where(a2 => db.Users.Where(u => u.Id == userId).FirstOrDefault().Communities.Select(c => c.CommunityID).Contains(a2.CommunityId)).ToListAsync();
             //var s = await db.Surveys.Include("Answers").Where(a2 => db.Users.Where(u => u.Id == userId).FirstOrDefault().Communities.Select(c => c.CommunityID).Contains(a2.CommunityId)).ToListAsync();
 
-            posts.AddRange(await db.Announcements.Where(a => a.CommunityId == communityId).ToListAsync());
-            posts.AddRange(await db.Brochures.Where(b => b.CommunityId == communityId).ToListAsync());
-            posts.AddRange(await db.Surveys.Where(s => s.CommunityId == communityId).Include("Answers").ToListAsync());
-            
-            return View(posts);
+            posts.AddRange(await db.Announcements.Where(a => a.CommunityId == id).ToListAsync());
+            posts.AddRange(await db.Brochures.Where(b => b.CommunityId == id).ToListAsync());
+            posts.AddRange(await db.Surveys.Where(s => s.CommunityId == id).Include("Answers").Include(s=>s.Votes).ToListAsync());
+
+            ViewData["userId"] = userId;
+            return View(posts.OrderByDescending(p => p.CreatedAt.Date).ThenByDescending(p => p.CreatedAt.TimeOfDay).ToList());
         }
 
         // GET: Posts/Details/5
@@ -49,9 +52,17 @@ namespace Wspolnota.Controllers
         }
 
         // GET: Posts/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name");
+            //ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name");
+            ViewData["id"] = id;
+            return View();
+        }
+
+        // GET: Posts/Create
+        public ActionResult CreateAnnouncement(int id)
+        {
+            ViewData["id"] = id;
             return View();
         }
 
@@ -60,23 +71,38 @@ namespace Wspolnota.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAnnouncement([Bind(Include = "PostId,Title,AuthorId,CreatedAt,CommunityId")] Announcement post)
+        public async Task<ActionResult> CreateAnnouncement([Bind(Include = "Title, Content, CommunityId")] Announcement post)
         {
+            post.Author = db.Users.Find(User.Identity.GetUserId());
+            post.AuthorId = post.Author.Id;
+            post.Community = db.Communities.Find(post.CommunityId);
+            post.CreatedAt = DateTime.Now;
             if (ModelState.IsValid)
             {
                 db.Announcements.Add(post);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = post.CommunityId});
             }
 
             ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
             return View(post);
         }
 
+        public ActionResult CreateBrochure(int id)
+        {
+            ViewData["id"] = id;
+            return View();
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateBrochure([Bind(Include = "PostId,Title,AuthorId,CreatedAt,CommunityId")] Brochure post)
+        public async Task<ActionResult> CreateBrochure([Bind(Include = "Title, Image, Link, CommunityId")] Brochure post)
         {
+            post.Author = db.Users.Find(User.Identity.GetUserId());
+            post.AuthorId = post.Author.Id;
+            post.Community = db.Communities.Find(post.CommunityId);
+            post.CreatedAt = DateTime.Now;
             if (ModelState.IsValid)
             {
                 db.Brochures.Add(post);
@@ -87,6 +113,13 @@ namespace Wspolnota.Controllers
             ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
             return View(post);
         }
+
+        public ActionResult CreateSurvey(int id)
+        {
+            ViewData["id"] = id;
+            return View();
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -105,9 +138,9 @@ namespace Wspolnota.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateVote([Bind(Include = "AnswerId,Content,SurveyId")]Answer answer)
+        public async Task<ActionResult> CreateVote(int AnswerId)
         {
-            answer.Survey = db.Surveys.Find(answer.SurveyId);
+            Answer answer = await db.Answers.Select(a=>a).Include(a=>a.Survey).Where(a=>a.AnswerId == AnswerId).FirstAsync();
             Vote vote = new Vote
             {
                 AuthorId = User.Identity.GetUserId(),
@@ -115,16 +148,14 @@ namespace Wspolnota.Controllers
                 AnswerId = answer.AnswerId,
                 Answer = answer
             };
-
-            var sda = ModelState.Values;
-
             if (ModelState.IsValid)
             {
+                db.Surveys.Select(s => s).Where(s => s.PostId == answer.Survey.PostId).FirstOrDefaultAsync().Result.Votes.Add(vote);
                 db.Votes.Add(vote);
                 await db.SaveChangesAsync();
                 
             }
-            return RedirectToAction("Index", new { communityId = vote.Answer.Survey.CommunityId});
+            return RedirectToAction("Index", new { id = answer.Survey.CommunityId});
             //ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
             //return View(post);
         }

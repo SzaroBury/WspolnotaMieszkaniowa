@@ -1,14 +1,60 @@
 ﻿@model IEnumerable<Wspolnota.Models.Community>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Lista spółdzielni";
+    Wspolnota.Models.ApplicationUser user = (Wspolnota.Models.ApplicationUser)ViewData["user"];
 }
 
-<h2>Communities</h2>
+<h2>Spółdzielnie</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Dodaj nową", "Create")
 </p>
+
+<p>Twoje spółdzielnie</p>
+
+<table class="table">
+    <tr>
+        <th>
+            <p>Nazwa</p>
+        </th>
+        <th>
+            <p>Obraz</p>
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Select(c => c).Where(c => c.Users.Contains(user)))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a href="Posts">
+                    <img style="height:100px; width: auto;" src=@item.Image alt=@item.Name />
+                </a>
+            </td>
+            <td>
+                @if (User.IsInRole("Admin"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CommunityID }) @:|
+                    @Html.ActionLink("Details", "Details", new { id = item.CommunityID }) @:|
+                    @Html.ActionLink("Delete", "Delete", new { id = item.CommunityID }) @:|
+                    @Html.ActionLink("Enter", "Index", "Posts", new { id = item.CommunityID }, null)
+                }
+                else
+                {
+                    @Html.ActionLink("Details", "Details", new { id = item.CommunityID }) @:|
+                    @Html.ActionLink("Enter", "Index", "Posts", new { id = item.CommunityID }, null)
+                }
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+<p>Pozostałe spółdzielnie</p>
 <table class="table">
     <tr>
         <th>
@@ -19,8 +65,8 @@
         </th>
         <th></th>
     </tr>
-
-@foreach (var item in Model) {
+    
+@foreach (var item in Model.Select(c => c).Where(c => !c.Users.Contains(user))) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
@@ -31,11 +77,19 @@
             </a>
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.CommunityID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.CommunityID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.CommunityID }) |
-            @Html.ActionLink("Join", "Join", new { id = item.CommunityID }) |
-            @Html.ActionLink("Enter", "Index", "Posts", new { communityId = item.CommunityID }, null)
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = item.CommunityID }) @:|
+                @Html.ActionLink("Details", "Details", new { id = item.CommunityID }) @:|
+                @Html.ActionLink("Delete", "Delete", new { id = item.CommunityID }) @:|
+                @Html.ActionLink("Join", "Join", new { id = item.CommunityID })
+            }
+            else
+            {
+                @Html.ActionLink("Details", "Details", new { id = item.CommunityID }) @:|
+                @Html.ActionLink("Join", "Join", new { id = item.CommunityID })
+            }
+
         </td>
     </tr>
 }

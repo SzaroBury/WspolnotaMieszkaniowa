@@ -198,17 +198,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906112104231_mig1.cs" />
-    <Compile Include="Migrations\201906112104231_mig1.Designer.cs">
-      <DependentUpon>201906112104231_mig1.cs</DependentUpon>
+    <Compile Include="Migrations\201906160952453_mig1.cs" />
+    <Compile Include="Migrations\201906160952453_mig1.Designer.cs">
+      <DependentUpon>201906160952453_mig1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906120000084_mig2.cs" />
-    <Compile Include="Migrations\201906120000084_mig2.Designer.cs">
-      <DependentUpon>201906120000084_mig2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906121312138_mig3.cs" />
-    <Compile Include="Migrations\201906121312138_mig3.Designer.cs">
-      <DependentUpon>201906121312138_mig3.cs</DependentUpon>
+    <Compile Include="Migrations\201906161002309_mig2.cs" />
+    <Compile Include="Migrations\201906161002309_mig2.Designer.cs">
+      <DependentUpon>201906161002309_mig2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -300,6 +296,10 @@
     <Content Include="Views\Posts\SurveyRenderer.cshtml" />
     <Content Include="Views\Posts\BrochureRenderer.cshtml" />
     <Content Include="Views\Posts\List.cshtml" />
+    <Content Include="Views\Posts\CreateAnnouncement.cshtml" />
+    <Content Include="Views\Posts\CreateBrochure.cshtml" />
+    <Content Include="Views\Posts\CreateSurvey.cshtml" />
+    <Content Include="Views\Manage\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -318,14 +318,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201906112104231_mig1.resx">
-      <DependentUpon>201906112104231_mig1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906160952453_mig1.resx">
+      <DependentUpon>201906160952453_mig1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906120000084_mig2.resx">
-      <DependentUpon>201906120000084_mig2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906121312138_mig3.resx">
-      <DependentUpon>201906121312138_mig3.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906161002309_mig2.resx">
+      <DependentUpon>201906161002309_mig2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

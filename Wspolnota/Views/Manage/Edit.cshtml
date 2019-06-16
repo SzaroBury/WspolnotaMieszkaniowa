@@ -1,0 +1,42 @@
+﻿@model Wspolnota.Models.ApplicationUser
+@{
+    ViewBag.Title = "Edytowanie profilu";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Ustawienia profilu</h4>
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <dl class="dl-horizontal" style="margin-top: 2em; margin-bottom: 2em;">
+            @Html.HiddenFor(user => user.Id, new { htmlAttributes = new { @class = "form-control" } })
+            <dt>Nazwa użytkownika:</dt>
+            <dd>@Html.EditorFor(user => user.UserName, new { htmlAttributes = new { @class = "form-control" } })</dd> <dr/>
+            <dt>Imię:</dt>
+            <dd>@Html.EditorFor(user => user.FirstName, new { htmlAttributes = new { @class = "form-control" } })</dd>
+            <dt>Nazwisko:</dt>
+            <dd>@Html.EditorFor(user => user.LastName, new { htmlAttributes = new { @class = "form-control" } })</dd>
+            <dt>Data urodzenia:</dt>
+            <dd>@Html.EditorFor(user => user.BirthDate, new { htmlAttributes = new { @class = "form-control" } })</dd>
+            <dd></dd>
+            <dt>Miasto:</dt>
+            <dd>@Html.EditorFor(user => user.City, new { htmlAttributes = new { @class = "form-control" } })</dd>
+            <dt>Adres:</dt>
+            <dd>@Html.EditorFor(user => user.Address, new { htmlAttributes = new { @class = "form-control" } })</dd>
+            <dt>Kod pocztowy:</dt>
+            <dd>@Html.EditorFor(user => user.PostalCode, new { htmlAttributes = new { @class = "form-control" } })</dd>
+            <dt>Płeć:</dt>
+            <dd>
+                @Html.RadioButtonFor(user => user.Gender, true, new { htmlAttributes = new { @class = "form-control" } }) Male
+                @Html.RadioButtonFor(user => user.Gender, false, new { htmlAttributes = new { @class = "form-control" } }) Female
+            </dd>
+        </dl>
+        <p style="text-align:center">
+            <input type="submit" class="btn btn-primary btn-lg" value="Zatwierdź">
+        </p>
+    }
+</div>

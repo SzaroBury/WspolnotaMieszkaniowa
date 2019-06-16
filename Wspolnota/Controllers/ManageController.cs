@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -64,6 +65,7 @@ namespace Wspolnota.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            ViewData["user"] = UserManager.Users.Select(u => u).Where(u => u.Id == userId).FirstOrDefault();
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -73,6 +75,41 @@ namespace Wspolnota.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
+        }
+
+        // GET: Manage/Edit
+        public ActionResult Edit()
+        {
+            string userId = User.Identity.GetUserId();
+            ApplicationUser user = UserManager.Users.Select(u => u).Where(u => u.Id == userId).FirstOrDefault();
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        // POST: Manage/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "UserName, FirstName, LastName, BirthDate, City, Address, PostalCode, Gender")]ApplicationUser userChanges)
+        {
+            string userId = User.Identity.GetUserId();
+            ApplicationUser user = UserManager.Users.Select(u => u).Where(u => u.Id == userId).FirstOrDefault();
+            user.UserName = userChanges.UserName;
+            user.FirstName = userChanges.FirstName;
+            user.LastName = userChanges.LastName;
+            user.BirthDate = userChanges.BirthDate;
+            user.City = userChanges.City;
+            user.Address = userChanges.Address;
+            user.PostalCode = userChanges.PostalCode;
+            user.Gender = userChanges.Gender;
+            if (ModelState.IsValid)
+            {
+                UserManager.Update(user);
+                return RedirectToAction("Index");
+            }
+            return View();
         }
 
         //

@@ -1,59 +1,41 @@
 ﻿@model Wspolnota.Models.Post
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Tworzenie";
+    var id = (int)ViewData["id"];
 }
 
-<h2>Create</h2>
+<h2>Tworzenie</h2>
+   
+<div class="form-horizontal">
+    <h4>Wybierz rodzaj posta:</h4><hr />
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Post</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AuthorId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AuthorId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AuthorId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CreatedAt, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CreatedAt, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CreatedAt, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CommunityId, "CommunityId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("CommunityId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CommunityId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            @*Html.ActionLink("Ogłoszenie", "CreateAnnouncement", new { communityId = commId })*@
+            <a href="../CreateAnnouncement/@id" class="btn btn-primary btn-lg">
+                Ogłoszenie
+            </a>
         </div>
     </div>
-}
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <a href="../CreateBrochure/@id" class="btn btn-primary btn-lg">
+                Reklama
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <a href="../CreateSurvey/@id" class="btn btn-primary btn-lg">
+                Ankieta
+            </a>
+        </div>
+    </div>
+</div>
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Powrót", "Index", new { id })
 </div>

@@ -30,7 +30,7 @@ namespace Wspolnota.Models
         public string Address { get; set; }
         public string PostalCode { get; set; }
         public DateTime? BirthDate { get; set; }
-        public bool? Gender { get; set; } //true if female, false for male
+        public bool Gender { get; set; } //true if male, false for female
 
         public List<Community> Communities { get; set; }
     }

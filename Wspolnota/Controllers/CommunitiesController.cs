@@ -17,7 +17,8 @@ namespace Wspolnota.Controllers
         // GET: Communities
         public async Task<ActionResult> Index()
         {
-            return View(await db.Communities.ToListAsync());
+            ViewData["user"] = db.Users.Find(User.Identity.GetUserId());
+            return View(await db.Communities.Include(c => c.Users).ToListAsync());
         }
 
         // GET: Communities/Details/5
@@ -51,7 +52,7 @@ namespace Wspolnota.Controllers
             {
                 community.Posts = new List<Post>
                 {
-                    new Announcement    { Title = "Pierwsze ogłoszenie", Author = db.Users.Find(User.Identity.GetUserId()), CreatedAt = DateTime.Now, Content = "Tekst ogłoszenia" },
+                    new Announcement    { Title = "Pierwsze ogłoszenie", Author = db.Users.Find(User.Identity.GetUserId()), CreatedAt = DateTime.Now, Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec non nunc hendrerit, auctor diam eleifend, malesuada elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus lobortis congue sem. Maecenas viverra massa vitae ante egestas gravida. In ante turpis, pretium at nisi sit amet, sagittis venenatis sapien. Maecenas ultrices, eros ac posuere eleifend, dui ipsum luctus nunc, et euismod mauris orci tempor tortor. Praesent mollis ante quis orci eleifend scelerisque eget pellentesque eros. Nulla eget urna erat. Duis nec arcu hendrerit tortor sollicitudin tempor in eget justo." },
                     new Survey          { Title = "Pierwsza ankieta - Co było pierwsze, jajko czy kura?", Author = db.Users.Find(User.Identity.GetUserId()), CreatedAt = DateTime.Now, Answers = new List<Answer>{ new Answer { Content = "Jajko"} , new Answer { Content = "Kura" } }  },
                     new Brochure        { Title = "Pierwsza reklama", Author = db.Users.Find(User.Identity.GetUserId()), CreatedAt = DateTime.Now, Image = @"https://pbs.twimg.com/media/DtxH42HXQAAb5Ks.jpg", Link = @"https://www.google.com" }
                 };

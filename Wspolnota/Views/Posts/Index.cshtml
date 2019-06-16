@@ -1,28 +1,44 @@
 ﻿@model IEnumerable<Wspolnota.Models.Post>
 
 @{
-    ViewBag.Title = "Community posts";
+    ViewBag.Title = "Posty społeczności";
 }
 
 <h2>@Model.First().Community.Name</h2>
 
 <div>
-    <p style="text-align:center"><a href="Posts/Create" class="btn btn-primary btn-lg">Create new</a></p>
+    <p style="text-align:center">
+        <a href="../Create/@Model.First().CommunityId" class="btn btn-primary btn-lg">
+            Dodaj nowy
+        </a>
+    </p>
 
-    @foreach (var item in Model)
+
+    @foreach (var item in Model.OrderByDescending(p => p.CreatedAt.Date).ThenByDescending(p => p.CreatedAt.TimeOfDay).ToList())
     {
-        @Html.Value(item.GetType().ToString());
-        if (item.GetType().Name.ToString() == "Announcement")
-        {
-            @Html.Partial("AnnouncementRenderer", item);
-        }
-        else if (item.GetType().Name.ToString() == "Survey")
-        {
-            @Html.Partial("SurveyRenderer", item);
-        }
-        else if (item.GetType().Name.ToString() == "Brochure")
-        {
-            @Html.Partial("BrochureRenderer", item)
-        }
+        @:<div style="border: 1px solid lightgrey; padding:1%; margin:2%; text-align:center;">
+
+
+    if (item.GetType().Name.ToString() == "Announcement")
+    {
+        @Html.Partial("AnnouncementRenderer", item)
+    }
+    else if (item.GetType().Name.ToString() == "Survey")
+    {
+        @Html.Partial("SurveyRenderer", item);
+    }
+    else if (item.GetType().Name.ToString() == "Brochure")
+    {
+        @Html.Partial("BrochureRenderer", item)
+    }
+
+    if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = item.PostId }) @:|
+        @Html.ActionLink("Delete", "Delete", new { id = item.PostId }) @:|
+    }
+    @Html.ActionLink("Details", "Details", new { id = item.PostId }) @:| Lubię to | Dodaj komentarz |
+    @: Dodano: @item.CreatedAt.ToLongDateString() , @item.CreatedAt.ToShortTimeString()
+@:</div>
     }
 </div>

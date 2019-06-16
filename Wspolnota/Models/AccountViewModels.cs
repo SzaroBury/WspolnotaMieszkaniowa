@@ -98,10 +98,10 @@ namespace Wspolnota.Models
 
         [Display(Name = "Your birthday")]
         [DataType(DataType.Date)]
-        public DateTime? BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         [Display(Name = "Gender")]
-        public bool? Gender { get; set; }
+        public bool Gender { get; set; }
     }
 
     public class ResetPasswordViewModel
