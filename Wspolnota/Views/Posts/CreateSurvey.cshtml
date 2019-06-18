@@ -23,14 +23,15 @@
             <div id="Answer1Div" class="form-group Answer">
                 <div id="Answer1Label" class="control-label col-md-1">1.</div>
                 <div id="Answer1Input" class="col-md-10">
-                    <input class="form-control text-box single-line" id="Answer1" name="Answer1" type="text" value="">
+                    <input class="form-control text-box single-line" id="Answer1" name="Answers[0]" type="text" value="">
+                    
                     @Html.ValidationMessageFor(model => model.Answers, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div id="Answer2Div" class="form-group Answer">
                 <div id="Answer2Label" class="control-label col-md-1">2.</div>
                 <div id="Answer2Input" class="col-md-10">
-                    <input class="form-control text-box single-line" id="Answer2" name="Answer2" type="text" value="">
+                    <input class="form-control text-box single-line" id="Answer2" name="Answers[1]" type="text" value="">
                     @Html.ValidationMessageFor(model => model.Answers, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -78,7 +79,7 @@
             var input = document.createElement("input");
             input.setAttribute("class", "form-control text-box single-line");
             input.id = "Answer" + counter;
-            input.name = "Answer" + counter;
+            input.name = "Answers[" + (counter - 1) + "]";
             input.type = "text";
 
             divLabel.appendChild(text);

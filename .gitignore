@@ -328,3 +328,29 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/Wspolnota/Scripts/esm
+/Wspolnota/Scripts/umd
+/Wspolnota/Content/bootstrap-reboot.min.css.map
+/Wspolnota/Content/bootstrap-reboot.min.css
+/Wspolnota/Content/bootstrap-reboot.css.map
+/Wspolnota/Content/bootstrap-reboot.css
+/Wspolnota/Content/bootstrap-grid.min.css.map
+/Wspolnota/Content/bootstrap-grid.min.css
+/Wspolnota/Content/bootstrap-grid.css.map
+/Wspolnota/Content/bootstrap-grid.css
+/Wspolnota/Scripts/bootstrap.bundle.min.js.map
+/Wspolnota/Scripts/bootstrap.bundle.min.js
+/Wspolnota/Scripts/bootstrap.bundle.js.map
+/Wspolnota/Scripts/bootstrap.bundle.js
+*.map
+/Wspolnota/Scripts/index.d.ts
+/Wspolnota/Scripts/jquery-3.4.1.slim.min.js
+/Wspolnota/Scripts/jquery-3.4.1.slim.js
+/Wspolnota/Scripts/jquery-3.4.1.min.js
+/Wspolnota/Scripts/jquery-3.4.1.js
+/Wspolnota/Scripts/jquery-3.4.1.intellisense.js
+/Wspolnota/Scripts/README.md
+/Wspolnota/Scripts/popper.min.js
+/Wspolnota/Scripts/popper.js
+/Wspolnota/Scripts/popper-utils.min.js
+/Wspolnota/Scripts/popper-utils.js

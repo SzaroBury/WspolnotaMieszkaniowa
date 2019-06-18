@@ -34,10 +34,10 @@
 
     if (User.IsInRole("Admin"))
     {
-        @Html.ActionLink("Edit", "Edit", new { id = item.PostId }) @:|
-        @Html.ActionLink("Delete", "Delete", new { id = item.PostId }) @:|
+        @Html.ActionLink("Edytuj", "Edit", new { id = item.PostId }) @:|
+        @Html.ActionLink("Usuń", "Delete", new { id = item.PostId }) @:|
     }
-    @Html.ActionLink("Details", "Details", new { id = item.PostId }) @:| Lubię to | Dodaj komentarz |
+    @Html.ActionLink("Szczegóły", "Details", new { id = item.PostId }) @:| Lubię to | Dodaj komentarz |
     @: Dodano: @item.CreatedAt.ToLongDateString() , @item.CreatedAt.ToShortTimeString()
 @:</div>
     }

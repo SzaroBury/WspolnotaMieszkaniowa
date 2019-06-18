@@ -37,15 +37,15 @@
             <td>
                 @if (User.IsInRole("Admin"))
                 {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.CommunityID }) @:|
-                    @Html.ActionLink("Details", "Details", new { id = item.CommunityID }) @:|
-                    @Html.ActionLink("Delete", "Delete", new { id = item.CommunityID }) @:|
-                    @Html.ActionLink("Enter", "Index", "Posts", new { id = item.CommunityID }, null)
+                    @Html.ActionLink("Edytuj", "Edit", new { id = item.CommunityID }) @:|
+                    @Html.ActionLink("Szczegóły", "Details", new { id = item.CommunityID }) @:|
+                    @Html.ActionLink("Usuń", "Delete", new { id = item.CommunityID }) @:|
+                    @Html.ActionLink("Otwórz", "Index", "Posts", new { id = item.CommunityID }, null)
                 }
                 else
                 {
-                    @Html.ActionLink("Details", "Details", new { id = item.CommunityID }) @:|
-                    @Html.ActionLink("Enter", "Index", "Posts", new { id = item.CommunityID }, null)
+                    @Html.ActionLink("Szczegóły", "Details", new { id = item.CommunityID }) @:|
+                    @Html.ActionLink("Otwórz", "Index", "Posts", new { id = item.CommunityID }, null)
                 }
 
             </td>
@@ -79,15 +79,15 @@
         <td>
             @if (User.IsInRole("Admin"))
             {
-                @Html.ActionLink("Edit", "Edit", new { id = item.CommunityID }) @:|
-                @Html.ActionLink("Details", "Details", new { id = item.CommunityID }) @:|
-                @Html.ActionLink("Delete", "Delete", new { id = item.CommunityID }) @:|
-                @Html.ActionLink("Join", "Join", new { id = item.CommunityID })
+                @Html.ActionLink("Edytuj", "Edit", new { id = item.CommunityID }) @:|
+                @Html.ActionLink("Szczegóły", "Details", new { id = item.CommunityID }) @:|
+                @Html.ActionLink("Usuń", "Delete", new { id = item.CommunityID }) @:|
+                @Html.ActionLink("Dołącz", "Join", new { id = item.CommunityID })
             }
             else
             {
-                @Html.ActionLink("Details", "Details", new { id = item.CommunityID }) @:|
-                @Html.ActionLink("Join", "Join", new { id = item.CommunityID })
+                @Html.ActionLink("Szczegóły", "Details", new { id = item.CommunityID }) @:|
+                @Html.ActionLink("Dołącz", "Join", new { id = item.CommunityID })
             }
 
         </td>

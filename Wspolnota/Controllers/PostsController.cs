@@ -122,8 +122,14 @@ namespace Wspolnota.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateSurvey([Bind(Include = "Title, Answer0, Answer1, Answer2, Answer3, CommunityID")] Survey post)
+        public async Task<ActionResult> CreateSurvey([Bind(Include = "Title, CommunityID")] Survey post, List<string> Answers )
         {
+            post.Author = db.Users.Find(User.Identity.GetUserId());
+            post.AuthorId = post.Author.Id;
+            post.Community = db.Communities.Find(post.CommunityId);
+            post.CreatedAt = DateTime.Now;
+            foreach(string a in Answers) post.Answers.Add(new Answer { Content = a, Survey = post, SurveyId = post.PostId });
+
             if (ModelState.IsValid)
             {
                 db.Surveys.Add(post);
@@ -131,7 +137,6 @@ namespace Wspolnota.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
             return View(post);
         }
 
