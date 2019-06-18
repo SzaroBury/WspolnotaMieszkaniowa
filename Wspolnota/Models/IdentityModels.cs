@@ -29,8 +29,8 @@ namespace Wspolnota.Models
         public string City { get; set; }
         public string Address { get; set; }
         public string PostalCode { get; set; }
-        public DateTime? BirthDate { get; set; }
-        public bool Gender { get; set; } //true if male, false for female
+        public DateTime? BirthDate { get; set; } = new DateTime(2000,1,1);
+        public bool Gender { get; set; } = true; //true if male, false for female
 
         public List<Community> Communities { get; set; }
     }

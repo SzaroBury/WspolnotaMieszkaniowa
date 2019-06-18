@@ -63,18 +63,19 @@
     <div class="form-group">
         @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
+            <input class="text-box single-line"  id="BirthDate" name="BirthDate" type="date">
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Gender, new { @class = "form-control" })
+            <input htmlattributes="{ class = form-control }" id="Gender" name="Gender" type="radio" value="True"> Mężczyzna
+            <input htmlattributes="{ class = form-control }" id="Gender" name="Gender" type="radio" value="False"> Kobieta
         </div>
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
+            <input type="submit" class="btn btn-default" value="Zarejestruj" />
         </div>
     </div>
 }
