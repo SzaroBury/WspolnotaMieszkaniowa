@@ -5,7 +5,11 @@ namespace Wspolnota.Models
 {
     public class Survey : Post
     {
-        public Survey() { Votes = new List<Vote>(); }
+        public Survey()
+        {
+            Answers = new List<Answer>();
+            Votes = new List<Vote>();
+        }
 
         public List<Answer> Answers { get; set; }
         public List<Vote> Votes { get; set; }

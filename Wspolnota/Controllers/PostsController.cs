@@ -117,13 +117,12 @@ namespace Wspolnota.Controllers
         public ActionResult CreateSurvey(int id)
         {
             ViewData["id"] = id;
-            return View();
+            return View(new Survey());
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateSurvey([Bind(Include = "PostId,Title,AuthorId,CreatedAt,CommunityId")] Survey post)
+        public async Task<ActionResult> CreateSurvey([Bind(Include = "Title, Answer0, Answer1, Answer2, Answer3, CommunityID")] Survey post)
         {
             if (ModelState.IsValid)
             {

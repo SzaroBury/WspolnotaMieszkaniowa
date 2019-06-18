@@ -1,47 +1,104 @@
-﻿@model Wspolnota.Models.Community
-
+﻿@model Wspolnota.Models.Survey
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Tworzenie";
+    int id = (int)ViewData["id"];
 }
 
-<h2>Create</h2>
-
-
-@using (Html.BeginForm()) 
+<h2>Tworzenie ankiety</h2>
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>Community</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <hr />
+        <h4 class="col-md-offset-1">Pytanie:</h4>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-1">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
+        <h4 class="col-md-offset-1">Odpowiedzi:</h4>
+        <div id="Answers">
+            <div id="Answer1Div" class="form-group Answer">
+                <div id="Answer1Label" class="control-label col-md-1">1.</div>
+                <div id="Answer1Input" class="col-md-10">
+                    <input class="form-control text-box single-line" id="Answer1" name="Answer1" type="text" value="">
+                    @Html.ValidationMessageFor(model => model.Answers, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div id="Answer2Div" class="form-group Answer">
+                <div id="Answer2Label" class="control-label col-md-1">2.</div>
+                <div id="Answer2Input" class="col-md-10">
+                    <input class="form-control text-box single-line" id="Answer2" name="Answer2" type="text" value="">
+                    @Html.ValidationMessageFor(model => model.Answers, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="-" onclick="RemoveAnswer();" style="margin:10px" />
+                <input type="button" value="+" onclick="AddAnswer();" style="margin:10px" />
+            </div>
+        </div>
+        @Html.Hidden("CommunityID", id)
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-10">
+                <input type="submit" value="Dodaj ankietę" class="btn btn-default" />
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Powrót", "Index", new { id })
 </div>
+
+
+<script>
+    function AddAnswer() {
+        var counter = document.getElementsByClassName("Answer").length + 1;
+        if (counter < 11) {
+            var Answers = document.getElementById("Answers");
+
+            var divDiv = document.createElement("div");
+            divDiv.id = "Answer" + counter + "Div"
+            divDiv.setAttribute("class", "form-group Answer")
+
+            var divLabel = document.createElement("div");
+            divLabel.id = "Answer" + counter + "Label";
+            divLabel.setAttribute("class", "control-label col-md-1");
+            var text = document.createTextNode(counter + ".");
+
+
+            var divInput = document.createElement("div");
+            divInput.id = "Answer" + counter;
+            divInput.setAttribute("class", "col-md-10");
+            var input = document.createElement("input");
+            input.setAttribute("class", "form-control text-box single-line");
+            input.id = "Answer" + counter;
+            input.name = "Answer" + counter;
+            input.type = "text";
+
+            divLabel.appendChild(text);
+            divDiv.appendChild(divLabel);
+            divInput.appendChild(input);
+            divDiv.appendChild(divInput);
+            Answers.appendChild(divDiv);
+        }
+    }
+
+    function RemoveAnswer() {
+        var counter = document.getElementsByClassName("Answer").length;
+        if (counter > 2) {
+            var Answers = document.getElementById("Answers");
+            var Answer = document.getElementById("Answer" + counter + "Div");
+
+            Answers.removeChild(Answer);
+        }
+    }
+</script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
