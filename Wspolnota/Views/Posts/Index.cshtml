@@ -16,29 +16,29 @@
 
     @foreach (var item in Model.OrderByDescending(p => p.CreatedAt.Date).ThenByDescending(p => p.CreatedAt.TimeOfDay).ToList())
     {
-        @:<div style="border: 1px solid lightgrey; padding:1%; margin:2%; text-align:center;">
+    <div style="border: 1px solid lightgrey; padding:1%; margin:2%;">
+        @if (item.GetType().Name.ToString() == "Announcement")
+        {
+            @Html.Partial("AnnouncementRenderer", item)
+        }
+        else if (item.GetType().Name.ToString() == "Survey")
+        {
+            @Html.Partial("SurveyRenderer", item);
+        }
+        else if (item.GetType().Name.ToString() == "Brochure")
+        {
+            @Html.Partial("BrochureRenderer", item)
+        }
 
+        <div class="text-center">
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ActionLink("Edytuj", "Edit", new { id = item.PostId }) @:|
+                @Html.ActionLink("Usuń", "Delete", new { id = item.PostId }) @:|
+            }
 
-    if (item.GetType().Name.ToString() == "Announcement")
-    {
-        @Html.Partial("AnnouncementRenderer", item)
-    }
-    else if (item.GetType().Name.ToString() == "Survey")
-    {
-        @Html.Partial("SurveyRenderer", item);
-    }
-    else if (item.GetType().Name.ToString() == "Brochure")
-    {
-        @Html.Partial("BrochureRenderer", item)
-    }
-
-    if (User.IsInRole("Admin"))
-    {
-        @Html.ActionLink("Edytuj", "Edit", new { id = item.PostId }) @:|
-        @Html.ActionLink("Usuń", "Delete", new { id = item.PostId }) @:|
-    }
-    @Html.ActionLink("Szczegóły", "Details", new { id = item.PostId }) @:| Lubię to | Dodaj komentarz |
-    @: Dodano: @item.CreatedAt.ToLongDateString() , @item.CreatedAt.ToShortTimeString()
-@:</div>
+            @Html.ActionLink("Szczegóły", "Details", new { id = item.PostId }) | Dodano: @item.CreatedAt.ToLongDateString() , @item.CreatedAt.ToShortTimeString()
+        </div>
+    </div>
     }
 </div>

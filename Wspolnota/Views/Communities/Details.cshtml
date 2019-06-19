@@ -1,34 +1,65 @@
 ﻿@model Wspolnota.Models.Community
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Szczegóły";
 }
 
-<h2>Details</h2>
-
 <div>
-    <h4>Community - @Html.DisplayFor(model => model.Name)</h4>
+    <h2>Szczegóły grupy - @Html.DisplayFor(model => model.Name)</h2>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            Identyfikator grupy:
         </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CommunityID)
+        </dd>
 
+        <dt>
+            Nazwa:
+        </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Image)
+            Opis grupy:
         </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
 
+        <dt>
+            Link do zdjęcia profilowego grupy:
+        </dt>
         <dd>
             @Html.DisplayFor(model => model.Image)
+        </dd>
+
+        <dt>
+            Profilowe zdjęcie:
+        </dt>
+        <dd>
+            <img src=@Model.Image alt=@Model.Name />
+        </dd>
+
+        <dt>
+            Liczba postów:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Posts.Count)
+        </dd>
+
+        <dt>
+            Liczba użytkowników w grupie:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Users.Count)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CommunityID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edytuj", "Edit", new { id = Model.CommunityID }) |
+    @Html.ActionLink("Powrót do listy", "Index", new { id = Model.CommunityID })
 </p>

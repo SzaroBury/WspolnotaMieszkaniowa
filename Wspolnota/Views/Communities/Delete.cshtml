@@ -1,30 +1,62 @@
 ﻿@model Wspolnota.Models.Community
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Usuwanie";
 }
 
-<h2>Delete</h2>
+<h2 class="col-sm-3">Usuwanie</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Jesteś pewny, że chcesz usunąć grupę @Model.Name?</h3>
 <div>
-    <h4>Community</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            Identyfikator grupy:
         </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CommunityID)
+        </dd>
 
+        <dt>
+            Nazwa:
+        </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Image)
+            Opis grupy:
         </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
 
+        <dt>
+            Link do zdjęcia profilowego grupy:
+        </dt>
         <dd>
             @Html.DisplayFor(model => model.Image)
+        </dd>
+
+        <dt>
+            Profilowe zdjęcie:
+        </dt>
+        <dd>
+            <img src=@Model.Image alt=@Model.Name />
+        </dd>
+
+        <dt>
+            Liczba postów:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Posts.Count)
+        </dd>
+
+        <dt>
+            Liczba użytkowników w grupie:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Users.Count)
         </dd>
 
     </dl>
@@ -33,8 +65,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Usuń" class="btn btn-primary" /> |
+            @Html.ActionLink("Powrót do listy", "Index")
         </div>
     }
 </div>

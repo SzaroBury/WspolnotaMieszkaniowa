@@ -4,24 +4,61 @@
     Wspolnota.Models.ApplicationUser user = (Wspolnota.Models.ApplicationUser)ViewData["user"];
 }
 
-<h2>Spółdzielnie</h2>
-
-@if(User.IsInRole("Admin"))
+@if (User.IsInRole("Admin"))
 {
-    @:<p style="text-align:center">
-        @:<a href="/Communities/Create/" class="btn btn-primary btn-lg">
-            @:Nowa spółdzielnia
-        @:</a>
-    @:</p>
+    <p style="text-align:center">
+        <a href="/Communities/Create/" class="btn btn-primary btn-lg">
+            Nowa spółdzielnia
+        </a>
+    </p>
 }
 
 
-<h4>Twoje spółdzielnie</h4>
+@if (User.Identity.IsAuthenticated)
+{
+    <h4>Twoje spółdzielnie:</h4>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                @foreach (var item in Model.Select(c => c).Where(c => c.Users.Contains(user)))
+                {
+
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <img class="card-img-top" src=@item.Image alt=@item.Name style="height: 225px; width: 100%; display: block;" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" data-holder-rendered="true" />
+                            <div class="card-body">
+                                @Html.DisplayFor(modelItem => item.Name)
+                                <p class="card-text">@item.Description</p>
+                                <div class="d-flex justify-content-around align-items-center">
+                                    <div class="btn-group">
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Edytuj</button>
+                                            <button type="button" onclick="location.href='@Url.Action("Delete", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Usuń</button>
+                                        }
+                                        <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Szczegóły</button>
+                                        <button type="button" onclick="location.href='@Url.Action("Index", "Posts", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Otwórz</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <h4 style="margin-top:40px;">Pozostałe spółdzielnie:</h4>
+}
+else
+{
+    <h4 style="margin-top:40px;">Wszystkie dostępne spółdzielnie:</h4>
+}
 
 <div class="album py-5 bg-light">
     <div class="container">
         <div class="row">
-            @foreach (var item in Model.Select(c => c).Where(c => c.Users.Contains(user)))
+            @foreach (var item in Model.Select(c => c).Where(c => !c.Users.Contains(user)))
             {
 
                 <div class="col-md-4">
@@ -29,8 +66,8 @@
                         <img class="card-img-top" src=@item.Image alt=@item.Name style="height: 225px; width: 100%; display: block;" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" data-holder-rendered="true" />
                         <div class="card-body">
                             @Html.DisplayFor(modelItem => item.Name)
-                            <p class="card-text">Opis spółdzielni.</p>
-                            <div class="d-flex justify-content-between align-items-center">
+                            <p class="card-text">@item.Description</p>
+                            <div class="d-flex justify-content-around align-items-center">
                                 <div class="btn-group">
                                     @if (User.IsInRole("Admin"))
                                     {
@@ -38,9 +75,8 @@
                                         <button type="button" onclick="location.href='@Url.Action("Delete", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Usuń</button>
                                     }
                                     <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Szczegóły</button>
-                                    <button type="button" onclick="location.href='@Url.Action("Index", "Posts", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Otwórz</button>
+                                    <button type="button" onclick="location.href='@Url.Action("Join", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Dołącz</button>
                                 </div>
-                                <small class="text-muted">9 mins</small>
                             </div>
                         </div>
                     </div>
@@ -49,37 +85,3 @@
         </div>
     </div>
 </div>
-
-<h4 style="margin-top:40px;">Pozostałe spółdzielnie</h4>
-<table class="table">
-
-    @foreach (var item in Model.Select(c => c).Where(c => !c.Users.Contains(user)))
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a href="Posts">
-                    <img style="height:100px; width: auto;" src=@item.Image alt=@item.Name />
-                </a>
-            </td>
-            <td>
-                @if (User.IsInRole("Admin"))
-                {
-                    @Html.ActionLink("Edytuj", "Edit", new { id = item.CommunityID }) @:|
-                    @Html.ActionLink("Szczegóły", "Details", new { id = item.CommunityID }) @:|
-                    @Html.ActionLink("Usuń", "Delete", new { id = item.CommunityID }) @:|
-                    @Html.ActionLink("Dołącz", "Join", new { id = item.CommunityID })
-                }
-                else
-                {
-                    @Html.ActionLink("Szczegóły", "Details", new { id = item.CommunityID }) @:|
-                    @Html.ActionLink("Dołącz", "Join", new { id = item.CommunityID })
-                }
-
-            </td>
-        </tr>
-    }
-
-</table>

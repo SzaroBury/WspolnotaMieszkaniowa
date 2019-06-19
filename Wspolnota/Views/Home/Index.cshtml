@@ -1,16 +1,120 @@
-﻿@{
+﻿@model IEnumerable<Wspolnota.Models.Community>
+@{
     ViewBag.Title = "Strona główna";
+    Wspolnota.Models.ApplicationUser user = (Wspolnota.Models.ApplicationUser)ViewData["user"];
 }
-
-<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
-    <div class="col-md-6 p-lg-10 mx-auto my-5">
-        <div class="row">
-            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="col my-auto px-0"><circle cx="12" cy="12" r="10"></circle><line x1="14.31" y1="8" x2="20.05" y2="17.94"></line><line x1="9.69" y1="8" x2="21.17" y2="8"></line><line x1="7.38" y1="12" x2="13.12" y2="2.06"></line><line x1="9.69" y1="16" x2="3.95" y2="6.06"></line><line x1="14.31" y1="16" x2="2.83" y2="16"></line><line x1="16.62" y1="12" x2="10.88" y2="21.94"></line></svg>
-            <h1 class="display-4 font-weight-normal text-nowrap col-10 px-0">e-Spółdzielnia</h1>
+@if (User.Identity.IsAuthenticated)
+{
+    if (user.Communities.Count == 1)
+    {
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <h2 class="col-md-6 offset-md-2 font-weight-bold">@Model.First().Name</h2>
+                <div class="row justify-content-md-center">
+                    <div class="col-md-10">
+                        <div class="card mb-4 box-shadow">
+                            <img class="card-img-top" src=@Model.First().Image alt=@Model.First().Name style="height: 100%; width: 100%; display: block;" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" data-holder-rendered="true" />
+                            <div class="card-body">
+                                <p class="card-text">@Model.First().Description</p>
+                                <div class="d-flex justify-content-around align-items-center">
+                                    <div class="btn-group">
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <button type="button" onclick="location.href='@Url.Action("Edit", "Communities", new { id = Model.First().CommunityID })'" class="btn btn-lg btn-outline-secondary">Edytuj</button>
+                                            <button type="button" onclick="location.href='@Url.Action("Delete", "Communities", new { id = Model.First().CommunityID })'" class="btn btn-lg btn-outline-secondary">Usuń</button>
+                                        }
+                                        <button type="button" onclick="location.href='@Url.Action("Details", "Communities" , new { id = Model.First().CommunityID })'" class="btn btn-lg btn-outline-secondary">Szczegóły</button>
+                                        <button type="button" onclick="location.href='@Url.Action("Index", "Posts", new { id = Model.First().CommunityID })'" class="btn btn-lg btn-outline-secondary">Otwórz</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <p class="lead font-weight-normal">Zdalne zarządanie spółdzielnią mieszkaniową.</p>
-        <a class="btn btn-outline-secondary" href="./Account/Register">Dołącz</a>
+    }
+    else if (user.Communities.Count == 0)
+    {
+        <h4 style="margin-top:40px;">Dostępne spółdzielnie</h4>
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    @foreach (var item in Model.Select(c => c).Where(c => !c.Users.Contains(user)))
+                    {
+
+                        <div class="col-md-4">
+                            <div class="card mb-4 box-shadow">
+                                <img class="card-img-top" src=@item.Image alt=@item.Name style="height: 225px; width: 100%; display: block;" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" data-holder-rendered="true" />
+                                <div class="card-body">
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                    <p class="card-text">Opis spółdzielni.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Edytuj</button>
+                                                <button type="button" onclick="location.href='@Url.Action("Delete", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Usuń</button>
+                                            }
+                                            <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Szczegóły</button>
+                                            <button type="button" onclick="location.href='@Url.Action("Join", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Dołącz</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h4>Wybierz spółdzielnię</h4>
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    @foreach (var item in Model.Select(c => c).Where(c => c.Users.Contains(user)))
+                    {
+
+                        <div class="col-md-4">
+                            <div class="card mb-4 box-shadow">
+                                <img class="card-img-top" src=@item.Image alt=@item.Name style="height: 225px; width: 100%; display: block;" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" data-holder-rendered="true" />
+                                <div class="card-body">
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                    <p class="card-text">Opis spółdzielni.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Edytuj</button>
+                                                <button type="button" onclick="location.href='@Url.Action("Delete", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Usuń</button>
+                                            }
+                                            <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Szczegóły</button>
+                                            <button type="button" onclick="location.href='@Url.Action("Index", "Posts", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Otwórz</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+        <div class="col-md-6 p-lg-10 mx-auto my-5">
+            <div class="row">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="col my-auto px-0"><circle cx="12" cy="12" r="10"></circle><line x1="14.31" y1="8" x2="20.05" y2="17.94"></line><line x1="9.69" y1="8" x2="21.17" y2="8"></line><line x1="7.38" y1="12" x2="13.12" y2="2.06"></line><line x1="9.69" y1="16" x2="3.95" y2="6.06"></line><line x1="14.31" y1="16" x2="2.83" y2="16"></line><line x1="16.62" y1="12" x2="10.88" y2="21.94"></line></svg>
+                <h1 class="display-4 font-weight-normal text-nowrap col-10 px-0">e-Spółdzielnia</h1>
+            </div>
+            <p class="lead font-weight-normal">Zdalne zarządanie spółdzielnią mieszkaniową.</p>
+            <a class="btn btn-outline-secondary" href="./Account/Register">Dołącz</a>
+        </div>
+        <div class="product-device shadow-sm d-none d-md-block"></div>
+        <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
     </div>
-    <div class="product-device shadow-sm d-none d-md-block"></div>
-    <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
-</div>
+}

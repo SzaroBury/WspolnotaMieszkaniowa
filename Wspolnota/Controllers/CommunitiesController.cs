@@ -28,7 +28,7 @@ namespace Wspolnota.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Community community = await db.Communities.FindAsync(id);
+            Community community = await db.Communities.Include(c => c.Posts).Include(c => c.Users).Select(c => c).Where(c => c.CommunityID == id).SingleOrDefaultAsync();
             if (community == null)
             {
                 return HttpNotFound();
@@ -46,7 +46,7 @@ namespace Wspolnota.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public async Task<ActionResult> Create([Bind(Include = "CommunityID,Name,Image")] Community community)
+        public async Task<ActionResult> Create([Bind(Include = "CommunityID,Name,Description,Image")] Community community)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace Wspolnota.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "CommunityID,Name,Image")] Community community)
+        public async Task<ActionResult> Edit([Bind(Include = "CommunityID,Name,Description,Image")] Community community)
         {
             if (ModelState.IsValid)
             {
@@ -102,7 +102,7 @@ namespace Wspolnota.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Community community = await db.Communities.FindAsync(id);
+            Community community = await db.Communities.Include(c => c.Posts).Include(c => c.Users).Select(c => c).Where(c => c.CommunityID == id).SingleOrDefaultAsync();
             if (community == null)
             {
                 return HttpNotFound();
@@ -150,7 +150,7 @@ namespace Wspolnota.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Join")]
         [ValidateAntiForgeryToken]
-        public ActionResult Join([Bind(Include = "CommunityID,Name,Image")] int communityID)
+        public ActionResult Join([Bind(Include = "CommunityID")] int communityID)
         {
             if (ModelState.IsValid)
             {

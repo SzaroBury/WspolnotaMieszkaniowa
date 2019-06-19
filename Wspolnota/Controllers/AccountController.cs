@@ -68,7 +68,7 @@ namespace Wspolnota.Controllers
             {
                 case SignInStatus.Success:
                     if (returnUrl == null)
-                        return RedirectToAction("Index", "Posts");
+                        return RedirectToAction("Index", "Home");
                     else
                         return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:

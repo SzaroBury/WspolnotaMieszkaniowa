@@ -3,19 +3,22 @@
     string userId = (string)ViewData["userId"];
 }
 
-<h3>@Html.DisplayFor(s => s.Title)</h3>
+<label class="float-right col-1">Ankieta</label>
+<h3 class="col-11">@Html.DisplayFor(s => s.Title)</h3>
 
 @if (Model.Votes.Any(v => v.AuthorId == userId))
 {
 <div style="margin-left:40px;">
-    Liczba wszystkich głosów:
-    @Model.Votes.Count(v => v.Answer.Survey.PostId == Model.PostId)
+    <label>Wyniki:</label>
     @foreach (Wspolnota.Models.Answer a in Model.Answers)
     {
-        <h4>
+        <h4 class="col">
             @a.Content: @Model.Votes.Count(v => v.AnswerId == a.AnswerId) głosów.<br />
         </h4>
     }
+
+    Liczba wszystkich głosów:
+    @Model.Votes.Count(v => v.Answer.Survey.PostId == Model.PostId)
 </div>
 }
 else
@@ -30,7 +33,7 @@ else
                     @Html.RadioButton("AnswerId", a.AnswerId) @a.Content <br />
                 </h4>
             }
-            <input type="submit" />
+            <input type="submit" value="Głosuj"/>
         </div>
     }
 }
