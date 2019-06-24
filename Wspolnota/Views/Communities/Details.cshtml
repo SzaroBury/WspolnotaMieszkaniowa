@@ -8,55 +8,13 @@
     <h2>Szczegóły grupy - @Html.DisplayFor(model => model.Name)</h2>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            Identyfikator grupy:
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CommunityID)
-        </dd>
-
-        <dt>
-            Nazwa:
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            Opis grupy:
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            Link do zdjęcia profilowego grupy:
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-
-        <dt>
-            Profilowe zdjęcie:
-        </dt>
-        <dd>
-            <img src=@Model.Image alt=@Model.Name />
-        </dd>
-
-        <dt>
-            Liczba postów:
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Posts.Count)
-        </dd>
-
-        <dt>
-            Liczba użytkowników w grupie:
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Users.Count)
-        </dd>
-
+        <dt>Identyfikator grupy:</dt><dd>@Html.DisplayFor(model => model.CommunityID)</dd>
+        <dt>Nazwa:</dt><dd>@Html.DisplayFor(model => model.Name)</dd>
+        <dt>Opis grupy:</dt><dd>@Html.DisplayFor(model => model.Description)</dd>
+        <dt>Link do zdjęcia profilowego grupy:</dt><dd>@Html.DisplayFor(model => model.Image)</dd>
+        <dt>Profilowe zdjęcie:</dt><dd><img src=@Model.Image alt=@Model.Name /></dd>
+        <dt>Liczba postów:</dt><dd>@Html.DisplayFor(model => model.Posts.Count)</dd>
+        <dt>Liczba użytkowników w grupie:</dt><dd>@Html.DisplayFor(model => model.Users.Count)</dd>
     </dl>
 </div>
 <p>

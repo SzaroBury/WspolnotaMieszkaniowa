@@ -24,7 +24,7 @@
             <label>Już głosowałeś w tej ankiecie. Wyniki:</label>
             @foreach (Wspolnota.Models.Answer a in Model.Answers)
             {
-                <h4 class="col">
+                <h4 class="col offset-2">
                     @a.Content: @Model.Votes.Count(v => v.AnswerId == a.AnswerId) głosów.<br />
                 </h4>
             }
@@ -32,9 +32,9 @@
             Liczba wszystkich głosów:
             @Model.Votes.Count(v => v.Answer.Survey.PostId == Model.PostId)
         </div>
-        <div class="col-5">
+        <!--<div class="col-5">
             <div id="Chart_@Model.PostId" />
-        </div>
+        </div>-->
     </div>
 }
 else
@@ -54,6 +54,21 @@ else
     }
 }
 
+@if (HttpContext.Current.Request.Url.AbsolutePath.Substring(7, 5) == "Detai")
+{
+    <hr />
+    <dl class="dl-horizontal offset-1">
+        <dt>Identyfikator posta:</dt><dd>@Html.DisplayFor(model => model.PostId)</dd>
+        <dt>Typ postu:</dt><dd><label>Ankieta</label></dd>
+        <dt>Pytanie:</dt><dd>@Html.DisplayFor(model => model.Title)</dd>
+        <dt>Autor:</dt><dd>@Html.DisplayFor(model => model.Author.UserName)</dd>
+        <dt>Identyfikator grupy:</dt><dd>@Html.DisplayFor(model => model.CommunityId)</dd>
+        <dt>Nazwa grupy:</dt><dd>@Html.DisplayFor(model => model.Community.Name)</dd>
+        <dt>Dodano:</dt><dd>@Model.CreatedAt.ToLongDateString(), @Model.CreatedAt.ToShortTimeString()</dd>
+        <dt>Liczba głosów:</dt><dd>@Html.DisplayFor(model => model.Votes.Count)</dd>
+    </dl>
+}
+
 <script type="text/javascript">
     window.onload = function () {
         var answers = @answers;
@@ -62,7 +77,7 @@ else
 	    for(var i = 0; i < answers.length; i++){
 		    dps.push({label:answers[i], y:votes[i]});
         }
-        
+
         var chart_@Model.PostId = new CanvasJS.Chart("Chart_@Model.PostId", {
             title: { text: "@Model.Title" },
             animationEnabled: true,

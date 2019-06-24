@@ -39,7 +39,7 @@ namespace Wspolnota.Controllers
         // GET: Posts/Details/5
         public async Task<ActionResult> Details(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -48,6 +48,8 @@ namespace Wspolnota.Controllers
             {
                 return HttpNotFound();
             }
+            ViewData["returnUrl"] = HttpContext.Request.Url.AbsolutePath;
+            ViewData["userId"] = User.Identity.GetUserId();
             return View(post);
         }
 
@@ -159,7 +161,8 @@ namespace Wspolnota.Controllers
                 await db.SaveChangesAsync();
                 
             }
-            return RedirectToAction("Index", new { id = answer.Survey.CommunityId});
+            if(HttpContext.Request.Url.AbsolutePath.Substring(7, 5) == "Detai") return RedirectToAction("Details", new { id = answer.Survey.PostId });
+            else return RedirectToAction("Index", new { id = answer.Survey.CommunityId});
             //ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
             //return View(post);
         }
@@ -241,7 +244,7 @@ namespace Wspolnota.Controllers
             Post post = await db.Announcements.Select(a => a).Where(a => a.PostId == id).FirstOrDefaultAsync();
             if (post == null)
             {
-                post = await db.Surveys.Select(s => s).Where(s => s.PostId == id).FirstOrDefaultAsync();
+                post = await db.Surveys.Select(s => s).Where(s => s.PostId == id).Include(s => s.Answers).Include(s => s.Votes).Include(s => s.Author).Include(s => s.Community).FirstOrDefaultAsync();
                 if (post == null) post = await db.Brochures.Select(b => b).Where(b => b.PostId == id).FirstOrDefaultAsync();
             }
             return post;

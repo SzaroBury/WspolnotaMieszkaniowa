@@ -1,13 +1,14 @@
 ﻿@model Wspolnota.Models.Post
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Szczegóły";
+    string returnUrl = (string)ViewData["returnUrl"];
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title</h2>
 
 <div>
-    <h4>Post</h4>
+    <h4>@Model.Title</h4>
     <hr />
     <div style="border: 1px solid lightgrey; padding:1%; margin:2%;">
         @if (Model.GetType().Name.ToString() == "Announcement")
@@ -26,15 +27,17 @@
         <div class="text-center">
             @if (User.IsInRole("Admin"))
             {
-                @Html.ActionLink("Edytuj", "Edit", new { id = Model.PostId }) @:|
-                @Html.ActionLink("Usuń", "Delete", new { id = Model.PostId }) @:|
+                <div class="d-flex justify-content-around align-items-center">
+                    <div class="btn-group">
+                        <button type="button" onclick="location.href='@Url.Action("Edit", new { id = Model.PostId })'" class="btn btn-sm btn-outline-secondary">Edytuj</button>
+                        <button type="button" onclick="location.href='@Url.Action("Delete", new { id = Model.PostId })'" class="btn btn-sm btn-outline-secondary">Usuń</button>
+                    </div>
+                </div>
             }
-
-            @Html.ActionLink("Szczegóły", "Details", new { id = Model.PostId }) | Dodano: @Model.CreatedAt.ToLongDateString() , @Model.CreatedAt.ToShortTimeString()
         </div>
     </div>
 </div>
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.PostId }) |
-    @Html.ActionLink("Back to List", "Index")
+    <button type="button" onclick="location.href='@returnUrl'" class="btn btn-sm btn-outline-secondary">Powrót</button>
 </p>
