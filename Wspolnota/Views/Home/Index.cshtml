@@ -9,22 +9,22 @@
     {
         <div class="album py-5 bg-light">
             <div class="container">
-                <h2 class="col-md-6 offset-md-2 font-weight-bold">@Model.First().Name</h2>
+                <h2 class="col-md-6 offset-md-2 font-weight-bold">@user.Communities.FirstOrDefault().Name</h2>
                 <div class="row justify-content-md-center">
                     <div class="col-md-10">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src=@Model.First().Image alt=@Model.First().Name style="height: 100%; width: 100%; display: block;" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" data-holder-rendered="true" />
+                            <img class="card-img-top" src=@user.Communities.FirstOrDefault().Image alt=@user.Communities.FirstOrDefault().Name style="height: 100%; width: 100%; display: block;" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" data-holder-rendered="true" />
                             <div class="card-body">
-                                <p class="card-text">@Model.First().Description</p>
+                                <p class="card-text">@user.Communities.FirstOrDefault().Description</p>
                                 <div class="d-flex justify-content-around align-items-center">
                                     <div class="btn-group">
                                         @if (User.IsInRole("Admin"))
                                         {
-                                            <button type="button" onclick="location.href='@Url.Action("Edit", "Communities", new { id = Model.First().CommunityID })'" class="btn btn-lg btn-outline-secondary">Edytuj</button>
-                                            <button type="button" onclick="location.href='@Url.Action("Delete", "Communities", new { id = Model.First().CommunityID })'" class="btn btn-lg btn-outline-secondary">Usuń</button>
+                                            <button type="button" onclick="location.href='@Url.Action("Edit", "Communities", new { id = user.Communities.First().CommunityID })'" class="btn btn-lg btn-outline-secondary">Edytuj</button>
+                                            <button type="button" onclick="location.href='@Url.Action("Delete", "Communities", new { id = user.Communities.First().CommunityID })'" class="btn btn-lg btn-outline-secondary">Usuń</button>
                                         }
-                                        <button type="button" onclick="location.href='@Url.Action("Details", "Communities" , new { id = Model.First().CommunityID })'" class="btn btn-lg btn-outline-secondary">Szczegóły</button>
-                                        <button type="button" onclick="location.href='@Url.Action("Index", "Posts", new { id = Model.First().CommunityID })'" class="btn btn-lg btn-outline-secondary">Otwórz</button>
+                                        <button type="button" onclick="location.href='@Url.Action("Details", "Communities" , new { id = user.Communities.First().CommunityID })'" class="btn btn-lg btn-outline-secondary">Szczegóły</button>
+                                        <button type="button" onclick="location.href='@Url.Action("Index", "Posts", new { id = user.Communities.First().CommunityID })'" class="btn btn-lg btn-outline-secondary">Otwórz</button>
                                     </div>
                                 </div>
                             </div>

@@ -1,6 +1,17 @@
 ﻿@model Wspolnota.Models.Survey
-@{ 
+@{
     string userId = (string)ViewData["userId"];
+    var answers = new List<string>();
+    var votes = new List<int>();
+    foreach (Wspolnota.Models.Answer a in Model.Answers)
+    {
+        var counter = Model.Votes.Count(v => v.AnswerId == a.AnswerId);
+        if (counter > 0)
+        {
+            answers.Add(a.Content);
+            votes.Add(counter);
+        }
+    }
 }
 
 <label class="float-right col-1">Ankieta</label>
@@ -8,18 +19,23 @@
 
 @if (Model.Votes.Any(v => v.AuthorId == userId))
 {
-<div style="margin-left:40px;">
-    <label>Wyniki:</label>
-    @foreach (Wspolnota.Models.Answer a in Model.Answers)
-    {
-        <h4 class="col">
-            @a.Content: @Model.Votes.Count(v => v.AnswerId == a.AnswerId) głosów.<br />
-        </h4>
-    }
+    <div class="row">
+        <div class="col-4" style="margin-left:40px;">
+            <label>Już głosowałeś w tej ankiecie. Wyniki:</label>
+            @foreach (Wspolnota.Models.Answer a in Model.Answers)
+            {
+                <h4 class="col">
+                    @a.Content: @Model.Votes.Count(v => v.AnswerId == a.AnswerId) głosów.<br />
+                </h4>
+            }
 
-    Liczba wszystkich głosów:
-    @Model.Votes.Count(v => v.Answer.Survey.PostId == Model.PostId)
-</div>
+            Liczba wszystkich głosów:
+            @Model.Votes.Count(v => v.Answer.Survey.PostId == Model.PostId)
+        </div>
+        <div class="col-5">
+            <div id="Chart_@Model.PostId" />
+        </div>
+    </div>
 }
 else
 {
@@ -33,7 +49,40 @@ else
                     @Html.RadioButton("AnswerId", a.AnswerId) @a.Content <br />
                 </h4>
             }
-            <input type="submit" value="Głosuj"/>
+            <input type="submit" value="Głosuj" />
         </div>
     }
 }
+
+<script type="text/javascript">
+    window.onload = function () {
+        var answers = @answers;
+        var votes = @votes;
+	    var dps =[];
+	    for(var i = 0; i < answers.length; i++){
+		    dps.push({label:answers[i], y:votes[i]});
+        }
+        
+        var chart_@Model.PostId = new CanvasJS.Chart("Chart_@Model.PostId", {
+            title: { text: "@Model.Title" },
+            animationEnabled: true,
+            legend: {
+                verticalAlign: "center",
+                horizontalAlign: "left",
+                fontSize: 10,
+                fontFamily: "Helvetica"
+            },
+            theme: "light2",
+            data: [{
+                type: "pie",
+                indexLabelFontFamily: "Garamond",
+                indexLabelFontSize: 20,
+                indexLabel: "{label} {y}%",
+                startAngle: -20,
+                showInLegend: true,
+                toolTipContent: "{legendText} {y}%",
+                dataPoints: dps
+            }]
+        }).render();
+    };
+</script>

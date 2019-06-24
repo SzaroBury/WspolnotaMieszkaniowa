@@ -1,9 +1,9 @@
 ﻿@{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Tworzenie roli";
 }
 
-<h2>Create Role</h2>
-@Html.ActionLink("List Roles", "Index") | @Html.ActionLink("Manage User Role", "ManageUserRoles")
+<h2>@ViewBag.Title</h2>
+@Html.ActionLink("Spis roli", "Index") | @Html.ActionLink("Zarządzanie rolami", "ManageUserRoles")
 <hr />
 @using (Html.BeginForm())
 {
@@ -16,5 +16,5 @@
     <p>
         @Html.TextBox("RoleName")
     </p>
-    <input type="submit" value="Save" />
+    <input type="submit" value="Zapisz" />
 }

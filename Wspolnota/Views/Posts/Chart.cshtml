@@ -1,0 +1,30 @@
+﻿@model Wspolnota.Models.Survey
+@{ 
+    string userId = (string)ViewData["userId"];
+    if (Model.Votes.Any(v => v.AuthorId == userId))
+    {
+        var answersName = new List<string>();
+        var votesCount = new List<int>();
+        foreach (Wspolnota.Models.Answer a in Model.Answers)
+        {
+            if (Model.Votes.Count(v => v.AnswerId == a.AnswerId) > 0)
+            {
+                answersName.Add(a.Content);
+            }
+        }
+        foreach (Wspolnota.Models.Answer a in Model.Answers)
+        {
+            int votes = Model.Votes.Count(v => v.AnswerId == a.AnswerId);
+            if (votes > 0) { votesCount.Add(votes); }
+        }
+
+        var myChart = new Chart(width: 400, height: 400)
+            .AddTitle(Model.Title)
+            .AddSeries(
+            name: "Odpowiedzi",
+            chartType: "Pie",
+            xValue: new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" },
+            yValues: new[] { "2", "6", "4", "5", "3" })
+            .Write();
+    }
+}

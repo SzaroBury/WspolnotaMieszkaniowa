@@ -165,37 +165,37 @@ namespace Wspolnota.Controllers
         }
 
         //// GET: Posts/Edit/5
-        //public async Task<ActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Post post = await FindPostAsync(id.Value);
-        //    if (post == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
-        //    return View(post);
-        //}
+        public async Task<ActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Post post = await FindPostAsync(id.Value);
+            if (post == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
+            return View(post);
+        }
 
-        ////POST: Posts/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Edit([Bind(Include = "PostId,Title,AuthorId,CreatedAt,CommunityId")] Post post)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(post).State = EntityState.Modified;
-        //        await db.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-        //    ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
-        //    return View(post);
-        //}
+        //POST: Posts/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit([Bind(Include = "PostId,Title,AuthorId,CreatedAt,CommunityId")] Post post)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(post).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
+            return View(post);
+        }
 
         // GET: Posts/Delete/5
         public async Task<ActionResult> Delete(int? id)
@@ -217,13 +217,13 @@ namespace Wspolnota.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Post post = await db.Announcements.FindAsync(id);
+            Post post = await db.Announcements.Select(a => a).Where(a => a.PostId == id).FirstOrDefaultAsync();
             if (post == null)
             {
-                post = await db.Surveys.FindAsync(id);
+                post = await db.Surveys.Select(s => s).Where(s => s.PostId == id).FirstOrDefaultAsync();
                 if (post == null)
                 {
-                    post = await db.Brochures.FindAsync(id);
+                    post = await db.Brochures.Select(b => b).Where(b => b.PostId == id).FirstOrDefaultAsync();
                     db.Brochures.Remove((Brochure)post);
                 }
                 else db.Surveys.Remove((Survey)post);
@@ -238,11 +238,11 @@ namespace Wspolnota.Controllers
 
         private async Task<Post> FindPostAsync(int id)
         {
-            Post post = await db.Announcements.FindAsync(id);
+            Post post = await db.Announcements.Select(a => a).Where(a => a.PostId == id).FirstOrDefaultAsync();
             if (post == null)
             {
-                post = await db.Surveys.FindAsync(id);
-                if (post == null) post = await db.Brochures.FindAsync(id);
+                post = await db.Surveys.Select(s => s).Where(s => s.PostId == id).FirstOrDefaultAsync();
+                if (post == null) post = await db.Brochures.Select(b => b).Where(b => b.PostId == id).FirstOrDefaultAsync();
             }
             return post;
         }

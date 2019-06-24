@@ -17,7 +17,7 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         @*Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })*@
-        <div class="control-label col-md-2">Tytuł: </div>
+        <div class="control-label col-md-2 font-weight-bold">Tytuł: </div>
         <div class="col-md-10">
             @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
@@ -25,7 +25,7 @@
     </div>
 
     <div class="form-group">
-        <div class = "control-label col-md-2" >Treść: </div>
+        <div class = "control-label col-md-2 font-weight-bold" >Treść: </div>
         <div class="col-md-10">
             <textarea class="form-control col-md-10" id="Content" name="Content" style="Height:150px;"></textarea>
             @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
@@ -36,7 +36,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+            <input type="submit" value="Dodaj ogłoszenie" class="btn btn-primary" />
         </div>
     </div>
 </div>

@@ -9,40 +9,30 @@
 <div>
     <h4>Post</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Community.Name)
-        </dt>
+    <div style="border: 1px solid lightgrey; padding:1%; margin:2%;">
+        @if (Model.GetType().Name.ToString() == "Announcement")
+        {
+            @Html.Partial("AnnouncementRenderer", Model)
+        }
+        else if (Model.GetType().Name.ToString() == "Survey")
+        {
+            @Html.Partial("SurveyRenderer", Model);
+        }
+        else if (Model.GetType().Name.ToString() == "Brochure")
+        {
+            @Html.Partial("BrochureRenderer", Model)
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Community.Name)
-        </dd>
+        <div class="text-center">
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ActionLink("Edytuj", "Edit", new { id = Model.PostId }) @:|
+                @Html.ActionLink("Usuń", "Delete", new { id = Model.PostId }) @:|
+            }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AuthorId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AuthorId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-
-    </dl>
+            @Html.ActionLink("Szczegóły", "Details", new { id = Model.PostId }) | Dodano: @Model.CreatedAt.ToLongDateString() , @Model.CreatedAt.ToShortTimeString()
+        </div>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.PostId }) |

@@ -60,6 +60,8 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edytuj", "Edit", new { id = Model.CommunityID }) |
-    @Html.ActionLink("Powrót do listy", "Index", new { id = Model.CommunityID })
-</p>
+    @if (User.IsInRole("Admin"))
+    {
+        Html.ActionLink("Edytuj", "Edit", new { id = Model.CommunityID }); }
+        @Html.ActionLink("Powrót do listy", "Index", new { id = Model.CommunityID })
+ </p>

@@ -19,14 +19,14 @@ namespace Wspolnota.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Aplikacja została przygotowana na przedmiot Pracownia problemowa.";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Fikcyjny przykładowy kontakt.";
 
             return View();
         }
