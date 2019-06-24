@@ -3,3 +3,17 @@
 <label class="float-right col-1">Ogłoszenie</label>
 <h3 class="col-11">@Html.DisplayFor(model => model.Title)</h3>
 <p class="col-11 mx-auto">@Html.DisplayFor(model => model.Content)</p>
+
+@if (HttpContext.Current.Request.Url.AbsolutePath.Substring(7, 5) == "Detai")
+{
+    <hr />
+    <dl class="dl-horizontal offset-1">
+        <dt>Identyfikator posta:</dt><dd>@Html.DisplayFor(model => model.PostId)</dd>
+        <dt>Typ postu:</dt><dd><label>Ogłoszenie</label></dd>
+        <dt>Tytuł:</dt><dd>@Html.DisplayFor(model => model.Title)</dd>
+        <dt>Autor:</dt><dd>@Html.DisplayFor(model => model.Author.UserName)</dd>
+        <dt>Identyfikator grupy:</dt><dd>@Html.DisplayFor(model => model.CommunityId)</dd>
+        <dt>Nazwa grupy:</dt><dd>@Html.DisplayFor(model => model.Community.Name)</dd>
+        <dt>Dodano:</dt><dd>@Model.CreatedAt.ToLongDateString(), @Model.CreatedAt.ToShortTimeString()</dd>
+    </dl>
+}

@@ -5,4 +5,19 @@
 <a href=@Model.Link>
     <img src=@Model.Image alt=@Model.Image />
 </a>
-<br/>
+
+@if (HttpContext.Current.Request.Url.AbsolutePath.Substring(7, 5) == "Detai")
+{
+    <hr />
+    <dl class="dl-horizontal offset-1">
+        <dt>Identyfikator posta:</dt><dd>@Html.DisplayFor(model => model.PostId)</dd>
+        <dt>Typ postu:</dt><dd><label>Reklama</label></dd>
+        <dt>Tytuł:</dt><dd>@Html.DisplayFor(model => model.Title)</dd>
+        <dt>Autor:</dt><dd>@Html.DisplayFor(model => model.Author.UserName)</dd>
+        <dt>Identyfikator grupy:</dt><dd>@Html.DisplayFor(model => model.CommunityId)</dd>
+        <dt>Nazwa grupy:</dt><dd>@Html.DisplayFor(model => model.Community.Name)</dd>
+        <dt>Dodano:</dt><dd>@Model.CreatedAt.ToLongDateString(), @Model.CreatedAt.ToShortTimeString()</dd>
+        <dt>Link reklamy:</dt><dd>@Html.DisplayFor(model => model.Link)</dd>
+        <dt>Link do obrazka:</dt><dd>@Html.DisplayFor(model => model.Image)</dd>
+    </dl>
+}

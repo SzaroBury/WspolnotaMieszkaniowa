@@ -331,7 +331,7 @@
     <Content Include="Views\Posts\Create.cshtml" />
     <Content Include="Views\Posts\Delete.cshtml" />
     <Content Include="Views\Posts\Details.cshtml" />
-    <Content Include="Views\Posts\Edit.cshtml" />
+    <Content Include="Views\Posts\EditAnnouncement.cshtml" />
     <Content Include="Views\Posts\Index.cshtml" />
     <Content Include="Views\Posts\AnnouncementRenderer.cshtml" />
     <Content Include="Views\Posts\SurveyRenderer.cshtml" />
@@ -352,6 +352,8 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Posts\Chart.cshtml" />
+    <Content Include="Views\Posts\EditBrochure.cshtml" />
+    <Content Include="Views\Posts\EditSurvey.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -180,23 +180,61 @@ namespace Wspolnota.Controllers
                 return HttpNotFound();
             }
             ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
-            return View(post);
+
+            if (post.GetType().Name.ToString() == "Announcement") return View("EditAnnouncement", post);
+            else if (post.GetType().Name.ToString() == "Survey") return View("EditSurvey", post);
+            else return View("EditBrochure", post); // (post.GetType().Name.ToString() == "Brochure")
         }
 
-        //POST: Posts/Edit/5
+        //POST: Posts/EditAnnouncement/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "PostId,Title,AuthorId,CreatedAt,CommunityId")] Post post)
+        public async Task<ActionResult> EditAnnouncement([Bind(Include = "PostId, AuthorId, CommunityId, CreatedAt, Title, Content")] Announcement post)
         {
             if (ModelState.IsValid)
             {
+                post.Author = db.Users.Find(post.AuthorId);
+                post.Community = db.Communities.Find(post.CommunityId);
                 db.Entry(post).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = post.CommunityId });
             }
-            ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
+            return View(post);
+        }
+        //POST: Posts/EditBrochure/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditBrochure([Bind(Include = "PostId, AuthorId, CommunityId, CreatedAt, Title, Link, Image")] Brochure post)
+        {
+            if (ModelState.IsValid)
+            {
+                post.Author = db.Users.Find(post.AuthorId);
+                post.Community = db.Communities.Find(post.CommunityId);
+                db.Entry(post).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index", new { id = post.CommunityId });
+            }
+            return View(post);
+        }
+        //POST: Posts/EditAnnouncement/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditSurvey([Bind(Include = "PostId, AuthorId, CommunityId, CreatedAt, Title, Content")] Survey post)
+        {
+            if (ModelState.IsValid)
+            {
+                post.Author = db.Users.Find(post.AuthorId);
+                post.Community = db.Communities.Find(post.CommunityId);
+                db.Entry(post).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index", new { id = post.CommunityId });
+            }
             return View(post);
         }
 
@@ -241,11 +279,11 @@ namespace Wspolnota.Controllers
 
         private async Task<Post> FindPostAsync(int id)
         {
-            Post post = await db.Announcements.Select(a => a).Where(a => a.PostId == id).FirstOrDefaultAsync();
+            Post post = await db.Announcements.Select(a => a).Where(a => a.PostId == id).Include(s => s.Author).Include(s => s.Community).FirstOrDefaultAsync();
             if (post == null)
             {
                 post = await db.Surveys.Select(s => s).Where(s => s.PostId == id).Include(s => s.Answers).Include(s => s.Votes).Include(s => s.Author).Include(s => s.Community).FirstOrDefaultAsync();
-                if (post == null) post = await db.Brochures.Select(b => b).Where(b => b.PostId == id).FirstOrDefaultAsync();
+                if (post == null) post = await db.Brochures.Select(b => b).Where(b => b.PostId == id).Include(s => s.Author).Include(s => s.Community).FirstOrDefaultAsync();
             }
             return post;
         }

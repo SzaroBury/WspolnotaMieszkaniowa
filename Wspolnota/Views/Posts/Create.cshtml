@@ -21,11 +21,9 @@
             <a href="../CreateSurvey/@id" class="btn btn-primary btn-lg" style="margin:10px">
                 Ankieta
             </a>
-    </div>
-
-   
+    </div>  
 </div>
 
 <div>
-    @Html.ActionLink("Powrót", "Index", new { id })
+    <button type="button" onclick="location.href='@Url.Action("Index", new { id = id })'" class="btn btn-sm btn-outline-secondary">Powrót</button>
 </div>

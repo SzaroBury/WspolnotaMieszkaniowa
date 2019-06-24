@@ -1,0 +1,50 @@
+﻿@model Wspolnota.Models.Survey
+
+@{
+    ViewBag.Title = "Edytowanie ankiety";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>@Model.Title</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.PostId)
+    @Html.HiddenFor(model => model.AuthorId)
+    @Html.HiddenFor(model => model.CommunityId)
+    @Html.HiddenFor(model => model.CreatedAt))
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @foreach (Wspolnota.Models.Answer a in Model.Answers)
+    {
+        <div class="form-group">
+            <label class="control-label col-md-2">@a.AnswerId</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+    }
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Zastosuj" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    <button type="button" onclick="location.href='@returnUrl'" class="btn btn-sm btn-outline-secondary">Powrót</button>
+</div>

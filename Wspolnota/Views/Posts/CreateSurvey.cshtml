@@ -4,58 +4,55 @@
     int id = (int)ViewData["id"];
 }
 
-<h2>Tworzenie ankiety</h2>
+<h2>Tworzenie</h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <hr />
-        <h4 class="col-md-offset-1 font-weight-bold">Pytanie:</h4>
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <div class="col-md-10 col-md-offset-1">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-            </div>
+<div class="form-horizontal">
+    <h4>Ankieta</h4>
+    <hr />
+    <h5 class="col-md-offset-1">Pytanie:</h5>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-1">
+            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
         </div>
-        <h4 class="col-md-offset-1 font-weight-bold">Odpowiedzi:</h4>
-        <div id="Answers">
-            <div id="Answer1Div" class="form-group Answer">
-                <div id="Answer1Label" class="control-label col-md-1">1.</div>
-                <div id="Answer1Input" class="col-md-10">
-                    <input class="form-control text-box single-line" id="Answer1" name="Answers[0]" type="text" value="">
-                    
-                    @Html.ValidationMessageFor(model => model.Answers, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div id="Answer2Div" class="form-group Answer">
-                <div id="Answer2Label" class="control-label col-md-1">2.</div>
-                <div id="Answer2Input" class="col-md-10">
-                    <input class="form-control text-box single-line" id="Answer2" name="Answers[1]" type="text" value="">
-                    @Html.ValidationMessageFor(model => model.Answers, "", new { @class = "text-danger" })
-                </div>
-            </div>
+    </div>
+    <h5 class="col-md-offset-1">Odpowiedzi:</h5>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="-" onclick="RemoveAnswer();" style="margin:10px" />
+            <input type="button" value="+" onclick="AddAnswer();" style="margin:10px" />
         </div>
+    </div>
+    <div id="Answers">
+        <div id="Answer1Div" class="form-group Answer">
+            <div id="Answer1Label" class="control-label col-md-1">1.</div>
+            <div id="Answer1Input" class="col-md-10">
+                <input class="form-control text-box single-line" id="Answer1" name="Answers[0]" type="text" value="">
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="-" onclick="RemoveAnswer();" style="margin:10px" />
-                <input type="button" value="+" onclick="AddAnswer();" style="margin:10px" />
+                @Html.ValidationMessageFor(model => model.Answers, "", new { @class = "text-danger" })
             </div>
         </div>
-        @Html.Hidden("CommunityID", id)
-        <div class="form-group">
-            <div class="col-md-offset-3 col-md-10">
-                <input type="submit" value="Dodaj ankietę" class="btn btn-primary" />
+        <div id="Answer2Div" class="form-group Answer">
+            <div id="Answer2Label" class="control-label col-md-1">2.</div>
+            <div id="Answer2Input" class="col-md-10">
+                <input class="form-control text-box single-line" id="Answer2" name="Answers[1]" type="text" value="">
+                @Html.ValidationMessageFor(model => model.Answers, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
-}
 
-<div>
-    @Html.ActionLink("Powrót", "Index", new { id })
+    @Html.Hidden("CommunityID", id)
+    <div class="form-group">
+        <div class="col-md-offset-3 col-md-10">
+            <button type="button" onclick="location.href='@Url.Action("Index", new { id = id })'" class="btn btn-sm btn-outline-secondary">Powrót</button>
+            <input type="submit" value="Dodaj ankietę" class="btn btn-primary" />
+        </div>
+    </div>
 </div>
-
+}
 
 <script>
     function AddAnswer() {

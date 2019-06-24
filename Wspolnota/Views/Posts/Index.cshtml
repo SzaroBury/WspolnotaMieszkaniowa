@@ -29,14 +29,16 @@
             @Html.Partial("BrochureRenderer", item)
         }
 
-        <div class="text-center">
-            @if (User.IsInRole("Admin"))
-            {
-                @Html.ActionLink("Edytuj", "Edit", new { id = item.PostId }) @:|
-                @Html.ActionLink("Usuń", "Delete", new { id = item.PostId }) @:|
-            }
-
-            @Html.ActionLink("Szczegóły", "Details", new { id = item.PostId }) | Dodano: @item.CreatedAt.ToLongDateString() , @item.CreatedAt.ToShortTimeString()
+        <div class="text-center" style="margin:1%;">
+            <div class="btn-group">
+                @if (User.IsInRole("Admin"))
+                {
+                    <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.PostId })'" class="btn btn-sm btn-outline-secondary">Edytuj</button>
+                    <button type="button" onclick="location.href='@Url.Action("Delete", new { id = item.PostId })'" class="btn btn-sm btn-outline-secondary">Usuń</button>
+                }
+                <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.PostId })'" class="btn btn-sm btn-outline-secondary">Szczegóły</button>
+                <button type="button" disabled style="color:black; border-color:black" class="btn btn-sm btn-outline-secondary">Dodano: @item.CreatedAt.ToLongDateString() , @item.CreatedAt.ToShortTimeString()</button>
+            </div>
         </div>
     </div>
     }
