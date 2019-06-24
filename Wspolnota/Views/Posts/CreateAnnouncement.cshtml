@@ -19,7 +19,7 @@
         @*Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })*@
         <div class="control-label col-md-2 font-weight-bold">Tytuł: </div>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control col-md-8" } })
             @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -37,7 +37,7 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <button type="button" onclick="location.href='@Url.Action("Index", new { id = id })'" class="btn btn-sm btn-outline-secondary">Powrót</button>
-            <input type="submit" value="Dodaj ogłoszenie" class="btn btn-primary" />
+            <input type="submit" value="Dodaj" class="btn btn-primary" />
         </div>
     </div>
 </div>

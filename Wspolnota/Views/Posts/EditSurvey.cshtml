@@ -1,50 +1,111 @@
 ﻿@model Wspolnota.Models.Survey
-
 @{
-    ViewBag.Title = "Edytowanie ankiety";
+    ViewBag.Title = "Tworzenie";
 }
 
-<h2>@ViewBag.Title</h2>
-
+<h2>Tworzenie</h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>@Model.Title</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.PostId)
-    @Html.HiddenFor(model => model.AuthorId)
-    @Html.HiddenFor(model => model.CommunityId)
-    @Html.HiddenFor(model => model.CreatedAt))
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    @foreach (Wspolnota.Models.Answer a in Model.Answers)
-    {
+    <div class="form-horizontal">
+        <h4>Ankieta</h4>
+        <hr />
+        <h5 class="col-md-offset-1">Pytanie:</h5>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            <label class="control-label col-md-2">@a.AnswerId</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="col-md-10 col-md-offset-1">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control  col-md-8" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
             </div>
         </div>
-    }
+        <h5 class="col-md-offset-1">Odpowiedzi:</h5>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="-" onclick="RemoveAnswer();" style="margin:10px" />
+                <input type="button" value="+" onclick="AddAnswer();" style="margin:10px" />
+            </div>
+        </div>
+        <div id="Answers">
+            @foreach (Wspolnota.Models.Answer a in Model.Answers)
+            {
+                <div id="Answer'@Model.Answers.IndexOf(a)Div" class="form-group Answer">
+                    <div id="Answer'@Model.Answers.IndexOf(a)Label" class="control-label col-md-1">@Model.Answers.IndexOf(a).</div>
+                    <div id="Answer'@Model.Answers.IndexOf(a)Input" class="col-md-10">
+                        <input class="form-control text-box single-line col-md-8" id="Answer'@Model.Answers.IndexOf(a)" name="Answers[@Model.Answers.IndexOf(a)]" type="text" value="@a.Content">
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Zastosuj" class="btn btn-primary" />
+                        @Html.ValidationMessageFor(model => model.Answers, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+        </div>
+
+        @Html.Hidden("PostId", Model.PostId)
+        @Html.Hidden("AuthorId", Model.AuthorId)
+        @Html.Hidden("CommunityId", Model.CommunityId)
+        @Html.Hidden("CreatedAt", Model.CreatedAt)
+        @Html.Hidden("Title", Model.Title)
+
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-10">
+                <button type="button" onclick="location.href='@Url.Action("Index", new { id = Model.CommunityId })'" class="btn btn-sm btn-outline-secondary">Powrót</button>
+                <input type="submit" value="Zastosuj" class="btn btn-primary" />
+            </div>
         </div>
     </div>
-</div>
 }
 
-<div>
-    <button type="button" onclick="location.href='@returnUrl'" class="btn btn-sm btn-outline-secondary">Powrót</button>
-</div>
+    <script>
+        function AddAnswer() {
+            var counter = document.getElementsByClassName("Answer").length + 1;
+            if (counter < 11) {
+                var Answers = document.getElementById("Answers");
+
+                var divDiv = document.createElement("div");
+                divDiv.id = "Answer" + counter + "Div"
+                divDiv.setAttribute("class", "form-group Answer")
+
+                var divLabel = document.createElement("div");
+                divLabel.id = "Answer" + counter + "Label";
+                divLabel.setAttribute("class", "control-label col-md-1");
+                var text = document.createTextNode(counter + ".");
+
+
+                var divInput = document.createElement("div");
+                divInput.id = "Answer" + counter;
+                divInput.setAttribute("class", "col-md-10");
+                var input = document.createElement("input");
+                input.setAttribute("class", "form-control text-box single-line col-md-8");
+                input.id = "Answer" + counter;
+                input.name = "Answers[" + (counter - 1) + "]";
+                input.type = "text";
+
+                divLabel.appendChild(text);
+                divDiv.appendChild(divLabel);
+                divInput.appendChild(input);
+                divDiv.appendChild(divInput);
+                Answers.appendChild(divDiv);
+            }
+        }
+
+        function RemoveAnswer() {
+            var counter = document.getElementsByClassName("Answer").length;
+            if (counter > 2) {
+                var Answers = document.getElementById("Answers");
+                var Answer = document.getElementById("Answer" + counter + "Div");
+
+                Answers.removeChild(Answer);
+            }
+        }
+
+        function checkVotes() {
+            if (true) {
+                alert("Nie możesz edytować ankiety, ponieważ ktoś już oddał głos.");
+                window.location.href = "@Url.Action("Index", new { id = Model.CommunityId } )";
+            }
+        }
+        window.onload = checkVotes;
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

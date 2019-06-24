@@ -179,7 +179,6 @@ namespace Wspolnota.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CommunityId = new SelectList(db.Communities, "CommunityID", "Name", post.CommunityId);
 
             if (post.GetType().Name.ToString() == "Announcement") return View("EditAnnouncement", post);
             else if (post.GetType().Name.ToString() == "Survey") return View("EditSurvey", post);
@@ -225,10 +224,11 @@ namespace Wspolnota.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditSurvey([Bind(Include = "PostId, AuthorId, CommunityId, CreatedAt, Title, Content")] Survey post)
+        public async Task<ActionResult> EditSurvey([Bind(Include = "PostId, AuthorId, CommunityId, CreatedAt, Title")] Survey post, List<string> Answers)
         {
             if (ModelState.IsValid)
             {
+                foreach (string a in Answers) post.Answers.Add(new Answer { Content = a, Survey = post, SurveyId = post.PostId });
                 post.Author = db.Users.Find(post.AuthorId);
                 post.Community = db.Communities.Find(post.CommunityId);
                 db.Entry(post).State = EntityState.Modified;
@@ -258,23 +258,22 @@ namespace Wspolnota.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Post post = await db.Announcements.Select(a => a).Where(a => a.PostId == id).FirstOrDefaultAsync();
+            int communityId = db.Communities.Select(c => c).Include(c => c.Posts).Where(c => c.Posts.Any(p => p.PostId == id)).Select(c => c.CommunityID).FirstOrDefault();
+            Post post = await db.Announcements.Select(a => a).Where(a => a.PostId == id).Include(s => s.Author).Include(s => s.Community).FirstOrDefaultAsync();
             if (post == null)
             {
-                post = await db.Surveys.Select(s => s).Where(s => s.PostId == id).FirstOrDefaultAsync();
+                post = await db.Surveys.Select(s => s).Where(s => s.PostId == id).Include(s => s.Answers).Include(s => s.Votes).Include(s => s.Author).Include(s => s.Community).FirstOrDefaultAsync();
                 if (post == null)
                 {
-                    post = await db.Brochures.Select(b => b).Where(b => b.PostId == id).FirstOrDefaultAsync();
+                    post = await db.Brochures.Select(b => b).Where(b => b.PostId == id).Include(s => s.Author).Include(s => s.Community).FirstOrDefaultAsync();
                     db.Brochures.Remove((Brochure)post);
                 }
                 else db.Surveys.Remove((Survey)post);
             }
             else db.Announcements.Remove((Announcement)post);
 
-            //Post post = await FindPostAsync(id);
-
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = communityId });
         }
 
         private async Task<Post> FindPostAsync(int id)

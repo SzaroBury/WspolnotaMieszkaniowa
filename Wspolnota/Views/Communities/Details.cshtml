@@ -18,8 +18,11 @@
     </dl>
 </div>
 <p>
-    @if (User.IsInRole("Admin"))
-    {
-        Html.ActionLink("Edytuj", "Edit", new { id = Model.CommunityID }); }
-        @Html.ActionLink("Powrót do listy", "Index", new { id = Model.CommunityID })
- </p>
+    <div class="btn-group">
+        @if (User.IsInRole("Admin"))
+        {
+        <button type="button" onclick="location.href='@Url.Action("Edit", new { id = Model.CommunityID })'" class="btn btn-sm btn-outline-secondary">Edytuj</button>
+        }
+        <button type="button" onclick="location.href='@Url.Action("Index", new { id = Model.CommunityID })'" class="btn btn-sm btn-outline-secondary">Powrót</button>
+    </div>
+</p>
