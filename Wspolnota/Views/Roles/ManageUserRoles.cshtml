@@ -15,7 +15,7 @@
         Username : @Html.TextBox("UserName")
         Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")
     </p>
-    <input type="submit" value="Dodaj" />
+    <input class="btn btn-sm btn-outline-secondary" type="submit" value="Dodaj" />
 }
 
 <hr />
@@ -25,8 +25,8 @@
     @Html.AntiForgeryToken()
     <p>
         Użytkownik : @Html.TextBox("UserName")
-        <input type="submit" value="Pobierz" />
     </p>
+    <input class="btn btn-sm btn-outline-secondary my-2" type="submit" value="Pobierz" />
 }
 
 @if (ViewBag.RolesForThisUser != null)
@@ -43,7 +43,7 @@
 }
 
 <hr />
-<h3>Delete A User from a Role</h3>
+<h3>Usuń rolę użytkownikowi</h3>
 
 @using (Html.BeginForm("DeleteRoleForUser", "Roles"))
 {
@@ -56,5 +56,5 @@
 
     </p>
 
-    <input type="submit" value="Usuń" />
+    <input class="btn btn-sm btn-outline-secondary" type="submit" value="Usuń" />
 }

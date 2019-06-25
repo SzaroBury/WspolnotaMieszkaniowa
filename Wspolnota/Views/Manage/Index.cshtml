@@ -58,7 +58,16 @@
         <dt>Kod pocztowy:</dt>
         <dd>@user.PostalCode</dd>
         <dt>Płeć:</dt>
-        <dd>@user.Gender</dd>
+        <dd>
+            @if (user.Gender)
+            {
+                @:Mężczyzna
+            }
+            else
+            {
+                @:Kobieta
+            }
+        </dd>
     </dl>
     <p style="text-align:center">
         <a href="/Manage/Edit" class="btn btn-primary btn-lg">

@@ -64,9 +64,9 @@
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Usuń" class="btn btn-primary" /> |
-            @Html.ActionLink("Powrót do listy", "Index")
-        </div>
+    <div class="form-actions no-color">
+        <button type="button" onclick="location.href='@Url.Action("Index")'" class="btn btn-sm btn-outline-secondary">Powrót</button>
+        <input type="submit" value="Usuń" class="btn btn-primary" />
+    </div>
     }
 </div>

@@ -82,15 +82,15 @@
                                 <img class="card-img-top" src=@item.Image alt=@item.Name style="height: 225px; width: 100%; display: block;" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" data-holder-rendered="true" />
                                 <div class="card-body">
                                     @Html.DisplayFor(modelItem => item.Name)
-                                    <p class="card-text">Opis spółdzielni.</p>
+                                    <p class="card-text">@item.Description</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
                                             @if (User.IsInRole("Admin"))
                                             {
-                                                <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Edytuj</button>
-                                                <button type="button" onclick="location.href='@Url.Action("Delete", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Usuń</button>
+                                                <button type="button" onclick="location.href='@Url.Action("Edit", "Communities", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Edytuj</button>
+                                                <button type="button" onclick="location.href='@Url.Action("Delete", "Communities", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Usuń</button>
                                             }
-                                            <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Szczegóły</button>
+                                            <button type="button" onclick="location.href='@Url.Action("Details", "Communities", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Szczegóły</button>
                                             <button type="button" onclick="location.href='@Url.Action("Index", "Posts", new { id = item.CommunityID })'" class="btn btn-sm btn-outline-secondary">Otwórz</button>
                                         </div>
                                     </div>
